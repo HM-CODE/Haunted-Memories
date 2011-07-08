@@ -4,7 +4,8 @@ Please contact Loki on haunted-memories.net port 3010 before using this code.
 
 # Repository Layout
 	/hardcode		Contains patches to the RhostMUSH core.
-	/projects		Contains one directory per softcode project.
+	/net			Bots, responders, and other network-related interfaces.
+	/softcode		Contains one directory per softcode project.
 	  ./<project>	Contains one file (with the .mush extension) per game object.
 	/utilities		Utility binaries and scripts, such as format/unformat tools.
 	/web			Website extensions and tools.
