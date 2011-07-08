@@ -1,0 +1,302 @@
+# Pixels are assumed to be %b%b%b unless they are found on this database.
+&PIXEL 			%vD = Pixels
+-
+&PIXEL`01`09 		%vD = N01
+-
+&PIXEL`01`10 		%vD = %b--
+-
+&PIXEL`01`11 		%vD = ---
+-
+&PIXEL`01`12 		%vD = ---
+-
+&PIXEL`01`13 		%vD = ---
+-
+&PIXEL`01`14 		%vD = --%b
+-
+&PIXEL`01`15 		%vD = N02
+-
+&PIXEL`01`16 		%vD = %b-%b
+-
+&PIXEL`01`17 		%vD = N03
+-
+&PIXEL`02`06 		%vD = %b__
+-
+&PIXEL`02`07 		%vD = ___
+-
+&PIXEL`02`08 		%vD = __/
+-
+&PIXEL`02`09 		%vD = %b|%b
+-
+&PIXEL`02`15 		%vD = %b|%b
+-
+&PIXEL`02`17 		%vD = %b|%b
+-
+&PIXEL`03`06 		%vD = /%b%b
+-
+&PIXEL`03`09 		%vD = %b|%b
+-
+&PIXEL`03`15 		%vD = %b|%b
+-
+&PIXEL`03`17 		%vD = %b|%b
+-
+&PIXEL`04`05 		%vD = N04
+-
+&PIXEL`04`06 		%vD = %b--
+-
+&PIXEL`04`07 		%vD = ---
+-
+&PIXEL`04`08 		%vD = --%b
+-
+&PIXEL`04`09 		%vD = N05
+-
+&PIXEL`04`10 		%vD = %b--
+-
+&PIXEL`04`11 		%vD = ---
+-
+&PIXEL`04`12 		%vD = ---
+-
+&PIXEL`04`13 		%vD = ---
+-
+&PIXEL`04`14 		%vD = --%b
+-
+&PIXEL`04`15 		%vD = N06
+-
+&PIXEL`04`17 		%vD = %b|%b
+-
+&PIXEL`05`05 		%vD = %b|%b
+-
+&PIXEL`05`06 		%vD = \\_%b
+-
+&PIXEL`05`08 		%vD = %b_/
+-
+&PIXEL`05`16 		%vD = \\_%b
+-
+&PIXEL`05`17 		%vD = %b|%b
+-
+&PIXEL`06`05 		%vD = %b|%b
+-
+&PIXEL`06`06 		%vD = %b%b\\
+-
+&PIXEL`06`08 		%vD = /%b%b
+-
+&PIXEL`06`16 		%vD = %b%b\\
+-
+&PIXEL`06`17 		%vD = %b|%b
+-
+&PIXEL`07`05 		%vD = %b|%b
+-
+&PIXEL`07`07 		%vD = N07
+-
+&PIXEL`07`08 		%vD = %b--
+-
+&PIXEL`07`09 		%vD = ---
+-
+&PIXEL`07`10 		%vD = ---
+-
+&PIXEL`07`11 		%vD = --%b
+-
+&PIXEL`07`12 		%vD = N08
+-
+&PIXEL`07`13 		%vD = %b--
+-
+&PIXEL`07`14 		%vD = ---
+-
+&PIXEL`07`15 		%vD = ---
+-
+&PIXEL`07`16 		%vD = --%b
+-
+&PIXEL`07`17 		%vD = N09
+-
+&PIXEL`07`18 		%vD = %b-%b
+-
+&PIXEL`07`19 		%vD = N10
+-
+&PIXEL`07`21 		%vD = C01
+-
+&PIXEL`07`22 		%vD = %b-%b
+-
+&PIXEL`07`23 		%vD = C02
+-
+&PIXEL`07`24 		%vD = %b-%b
+-
+&PIXEL`07`25 		%vD = C03
+-
+&PIXEL`08`05 		%vD = %b|%b
+-
+&PIXEL`08`06 		%vD = %b_/
+-
+&PIXEL`08`17 		%vD = %b|%b
+-
+&PIXEL`08`18 		%vD = %b_/
+-
+&PIXEL`08`20 		%vD = %b_/
+-
+&PIXEL`08`21 		%vD = %b|%b
+-
+&PIXEL`08`22 		%vD = %b_/
+-
+&PIXEL`08`23 		%vD = %b|%b
+-
+&PIXEL`08`25 		%vD = %b|%b
+-
+&PIXEL`08`26 		%vD = \\__
+-
+&PIXEL`08`27 		%vD = ___
+-
+&PIXEL`08`28 		%vD = __%b
+-
+&PIXEL`09`05 		%vD = %b|%b
+-
+&PIXEL`09`06 		%vD = /%b%b
+-
+&PIXEL`09`17 		%vD = %b|%b
+-
+&PIXEL`09`18 		%vD = /%b%b
+-
+&PIXEL`09`20 		%vD = /%b%b
+-
+&PIXEL`09`21 		%vD = %b|%b
+-
+&PIXEL`09`22 		%vD = /%b%b
+-
+&PIXEL`09`23 		%vD = %b|%b
+-
+&PIXEL`09`25 		%vD = %b|%b
+-
+&PIXEL`09`28 		%vD = %b%b\\
+-
+&PIXEL`10`03 		%vD = W01
+-
+&PIXEL`10`04 		%vD = %b-%b
+-
+&PIXEL`10`05 		%vD = W02
+-
+&PIXEL`10`06 		%vD = %b-%b
+-
+&PIXEL`10`07 		%vD = W03
+-
+&PIXEL`10`08 		%vD = %b-%b
+-
+&PIXEL`10`09 		%vD = W04
+-
+&PIXEL`10`10 		%vD = %b-%b
+-
+&PIXEL`10`11 		%vD = I01
+-
+&PIXEL`10`12 		%vD = %b-%b
+-
+&PIXEL`10`13 		%vD = I02
+-
+&PIXEL`10`14 		%vD = %b-%b
+-
+&PIXEL`10`15 		%vD = I03
+-
+&PIXEL`10`16 		%vD = %b-%b
+-
+&PIXEL`10`17 		%vD = I04
+-
+&PIXEL`10`18 		%vD = %b-%b
+-
+&PIXEL`10`19 		%vD = I05
+-
+&PIXEL`10`21 		%vD = C04
+-
+&PIXEL`10`22 		%vD = %b--
+-
+&PIXEL`10`23 		%vD = -+-
+-
+&PIXEL`10`24 		%vD = --%b
+-
+&PIXEL`10`25 		%vD = C05
+-
+&PIXEL`10`26 		%vD = %b--
+-
+&PIXEL`10`27 		%vD = ---
+-
+&PIXEL`10`28 		%vD = --%b
+-
+&PIXEL`10`29 		%vD = C06
+-
+&PIXEL`10`39 		%vD = P01
+-
+&PIXEL`10`40 		%vD = %b-%b
+-
+&PIXEL`10`41 		%vD = E01
+-
+&PIXEL`10`42 		%vD = %b--
+-
+&PIXEL`10`43 		%vD = ---
+-
+&PIXEL`10`44 		%vD = --%b
+-
+&PIXEL`10`45 		%vD = E02
+-
+
+# +travel locations are mapped to their map-pixel here. (used for "GPS").
+&LOCATION 		%vD = Grid Locations
+-
+&LOCATION`NS-01 	%vD = 01`09
+-
+&LOCATION`NS-02 	%vD = 01`15
+-
+&LOCATION`NS-03 	%vD = 01`17
+-
+&LOCATION`NS-04 	%vD = 04`05
+-
+&LOCATION`NS-05 	%vD = 04`09
+-
+&LOCATION`NS-06 	%vD = 04`15
+-
+&LOCATION`NS-07 	%vD = 07`07
+-
+&LOCATION`NS-08 	%vD = 07`12
+-
+&LOCATION`NS-09 	%vD = 07`17
+-
+&LOCATION`NS-10 	%vD = 07`19
+-
+&LOCATION`CC-01 	%vD = 07`21
+-
+&LOCATION`CC-02 	%vD = 07`23
+-
+&LOCATION`CC-03 	%vD = 07`25
+-
+
+#    1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+# 01                         N01 ------------- N02 - N03
+# 02                 _______/ |                 |     |
+# 03                /         |                 |     |
+# 04             N04 ------- N05 ------------- N06    |
+# 05              | \_     _/                     \_  |
+# 06              |   \   /                         \ |
+# 07              |    N07 ---------- N08 ---------- N09 - N10   C01 - C02 - C03
+# 08              |  _/                               |  _/    _/ |  _/ |     | \_______
+# 09              | /                                 | /     /   | /   |     |         \
+# 10       W01 - W02 - W03 - W04 - I01 - I02 - I03 - I04 - I05   C04 ---+--- C05 ------- C06                           P01 - E01 ------- E02
+# 11     /  |     |  /     \  |     |     |     |     |           |     |     |             \_                       _/       | \_     _/ | 
+# 12    /   |     | /       \ |     |     |     |     |           |     |     |               \                     /         |   \   /   |
+# 13 W05 - W06 - W07   W08   W09 - I06 - I07 - I08 - I09         C07 - C08 - C09 ------------- C10 - P02 - P03 - P04 - P05    |    E03    |
+# 14    \   |     | \   |   / |     |           |     |           |     |     |              _/       | \_/ |  _/ |           |     |     |
+# 15     \  |     |  \  |  /  |     |           |     |           |     |     |             /         | / \ | /   |           |     |     |
+# 16 W10 - W11 - W12 - W13 - W14 - I10 ------- I11 - I12 - I13 - C11 - C12 - C13 ------- C14         P06 - P07 - P08         E04    |     |
+# 17        |     |     |     |     |           |   / |     | \_  | \_  |     |        _/ |           |  /  | \_  |           |     |     |
+# 17        |     |     |     |     |           |  /  |     |   \ |   \ |     |       /   |           | /   |   \ |           |     |     |
+# 19 W15 - W16 - W17 - W18 - W19 - I14 ------- I15 - I16 - I17   C15 - C16 - C17 - C18 - C19         P09 - P10 - P11 - P12 ---+--- E05 - E06
+# 20  |     |  /              |                         \   |           |     |           |  _______/    _/ |                 |     |
+# 21  |     | /               |                          |  |           |     |           | /           /   |                 |     |
+# 22 W20 - W21               W22                         |  |          C20 - C21 ------- C22         P13 - P14                |     |
+# 23                                                     |  |        _/                   |           | \_  | \_              |     |
+# 24                                                      \ |       /                     |           |   \ |   \             |     |
+# 25                                                       I18 - S01 ------------------- S02 ---------+--- P15 - P16 ------- E07 - E08
+# 26                                                        |  _/                         |           |  _/ |                         \_
+# 27                                                        | /                           |           | /   |                           \
+# 28                                                       S03                           S04         P17 - P18                           E09
+# 29                                                        |                             |
+# 30                                                        |                             |
+# 31                                                       S05 ------------- S06 ------- S07 - S08
+# 32                                                          \_                          |       \_
+# 33                                                            \                         |         \
+# 34                                                             S09 ------------- S10 - S11 ------- S12
+# 35                                                                                  \_  | \_     _/
+# 36                                                                                    \ |   \   /
+# 37                                                                                     S13   S14
