@@ -37,21 +37,6 @@ use warnings;
 
 my $state = {};
 
-my $handlers =
-  {
-   define => sub {
-       local $_ = shift;
-       die "no args to define" unless defined $_;
-       if (my ($na_macro, $na_expand) = (/^(\w+)\s+(\S.*)$/)) {
-	   die "macro $na_macro already defined"
-	     if (exists $state->{namacro}{$na_macro});
-	   $state->{namacro}{$na_macro} = $na_expand;
-       } else {
-	   die "mangled define: $_";
-       }
-   }
-  };
-
 sub slurp {
     my ($name) = @_;
     local $/;
@@ -68,8 +53,6 @@ sub slurp {
 
 sub init_state {
     $state->{line} = '';
-    $state->{macro} = {};
-    $state->{namacro} = {};
     $state->{output} = '';
 }
 
@@ -97,33 +80,23 @@ sub process {
     $data =~ s/\t/ /gsm;
     $data =~ s/[\r\n]+/\n/gsm;
     my @lines = split /\n/,$data;
-  LINE: for (@lines) {
-	s(//.*$)();
-	next if (/^\s*\/\//);
+    for (@lines) {
+	next if (/^\#/);
 	next if (/^\s*$/);
 	if (/^-\s*$/) {
 	    local $_ = $state->{line};
-	    if (my ($cmd, undef, $argstr) = (/^\#\s*(\w+)(\s+(.*))?$/)) {
-		if (defined $handlers->{$cmd}) {
-		    $handlers->{$cmd}->($argstr);
-		} else {
-		    die "unknown unformatter command $cmd";
-		}
-	    } else {
-		process_line ($_);
-	    }
+	    process_line ($_);
 	    $state->{line} = '';
-	    next LINE;
-
-	} elsif (/^QUIT$/ and $state->{line} eq "") {
-	    next LINE;
-
-	} else {
-	    s/^\s+//;
-	    s/\s+$//;
-	    s/\\$//;
-	    $state->{line} .= "$_";
+	    next;
 	}
+	if (/^QUIT$/ and $state->{line} eq "") {
+	    next;
+	}
+
+	s/^\s+//;
+	s/\\\s*$//;
+	
+	$state->{line} .= "$_";
     }
     die "unterminated output line block\n"
       if ($state->{line});
