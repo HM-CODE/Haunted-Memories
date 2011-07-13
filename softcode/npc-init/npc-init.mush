@@ -10,25 +10,25 @@ QUIT
 @va %va=#17426
 -
 
-// ------------------------------------------------------------
-// Config Variables
+# ------------------------------------------------------------
+# Config Variables
 
 &V_COLOR_NUMBER %va=gh
 -
 
-// ------------------------------------------------------------
-// Messages
+# ------------------------------------------------------------
+# Messages
 
-// Sent on +init in ooc rooms
+# Sent on +init in ooc rooms
 &MSG_NOT_IC %va=This is not an IC location.
 -
 
-// Sent on +init/list or +inits when there are none
+# Sent on +init/list or +inits when there are none
 &MSG_NO_INITS %va=There are no active initiatives rolled.
 -
 
-// Sent on +init to self
-// dieroll, sheetbonus, manual expr, comment
+# Sent on +init to self
+# dieroll, sheetbonus, manual expr, comment
 &MSG_SELF_INIT %va=
   You rolled initiative of \
     [elist(
@@ -43,13 +43,13 @@ QUIT
                       ladd(%0 %1 [u(%va/fn_expression,%2)]))].
 -
 
-// Sent on +init when you already have one.
+# Sent on +init when you already have one.
 &MSG_INIT_ALREADY %va=
   You have already rolled initiative.  See help for [elist(iter(+init +init/list +init/setmod +init/setroll +init/clear,ansi(h,itext(0))))] for more information.
 -
 
-// Sent to others when you roll +init
-// char dbref, dieroll, sheetbonus, manual expr, comment
+# Sent to others when you roll +init
+# char dbref, dieroll, sheetbonus, manual expr, comment
 &MSG_OTHER_INIT %va=
   squish(
     [moniker(%0)] rolled initiative \
@@ -61,18 +61,18 @@ QUIT
                         ladd(%1 %2 [u(%va/fn_expression,%3)]))].)
 -
 
-// Sent on +init/npc for npcs already present and owned by the player
+# Sent on +init/npc for npcs already present and owned by the player
 &MSG_INIT_NPC_ALREADY %va=That NPC is alread in the initiative table.
 -
 
-// Sent on +init/npc for npcs already present and owned by someone else
+# Sent on +init/npc for npcs already present and owned by someone else
 &MSG_INIT_NPC_PLAYER_TAKEN %va=
   [setq(c,pmatch(%0))]
   The name '%0' is in use by character [name(%qc)](%qc)(alias [get(%qc/alias)]).
 -
 
-// Sent to the player when they add an npc
-// name, sheet init, manual mod, dice
+# Sent to the player when they add an npc
+# name, sheet init, manual mod, dice
 &MSG_SELF_INIT_NPC %va=
   You added an NPC named '[ansi(h,%0)]' \
   with sheet initiative [u(%va/fn_cnum,%1)], \
@@ -81,74 +81,74 @@ QUIT
   for a total of [u(%va/fn_cnum,ladd(%1 %2 %3))].
 -
 
-// Sent to others when the player adds an NPC
-// name, sheet init, manual mod, dice
+# Sent to others when the player adds an NPC
+# name, sheet init, manual mod, dice
 &MSG_OTHER_INIT_NPC %va=
   [moniker(%#)] added an NPC named '[ansi(h,%0)]' \
   with an initiative total of [u(%va/fn_cnum,ladd(%1 %2 %3))].
 -
 
-// Sent when you +init/clear, +init/set* a name that can't be found
+# Sent when you +init/clear, +init/set* a name that can't be found
 &MSG_NAME_UNKNOWN %va=
   if(strlen(%0),
     Unable to find the name '%0' in the table.,
     You have not rolled initiative.)
 -
 
-// Sent when you +init/setinit and no NPC matches
+# Sent when you +init/setinit and no NPC matches
 &MSG_NOT_NPC %va=The %qb command only operates on NPCs.
 -
 
-// Sent to player when they've successfully cleared their init
+# Sent to player when they've successfully cleared their init
 &MSG_SELF_CLEAR_SELF %va=You have cleared your initiative.
 -
 
-// Sent to others when the player has successfully cleared their init
+# Sent to others when the player has successfully cleared their init
 &MSG_OTHER_CLEAR_SELF %va=moniker(%#) has cleared %p initiative.
 -
 
-// Sent to player when they've successfully cleared their NPC's init
+# Sent to player when they've successfully cleared their NPC's init
 &MSG_SELF_CLEAR_NPC %va=You have cleared initiative for the NPC '%0.'
 -
 
-// Sent to others when the player has successfully cleared their NPC's init
+# Sent to others when the player has successfully cleared their NPC's init
 &MSG_OTHER_CLEAR_NPC %va=moniker(%#) has cleared initiative for the NPC '%0.'
 -
 
-// Sent to staffer when they clear someone's init
+# Sent to staffer when they clear someone's init
 &MSG_SELF_CLEAR_OTHER %va=You have cleared initiative for %0.
 -
 
-// Sent to others when a staffer clears someone's init
+# Sent to others when a staffer clears someone's init
 &MSG_OTHER_CLEAR_OTHER %va=moniker(%#) has cleared initiative for player %0.
 -
 
-// Sent to a staffer wiping the init table
+# Sent to a staffer wiping the init table
 &MSG_SELF_WIPE %va=You have wiped the initiative table.
 -
 
-// Sent to others when the table is wiped
+# Sent to others when the table is wiped
 &MSG_OTHER_WIPE %va=moniker(%#) wiped the initiative table.
 -
 
-// Sent to the player wiping an empty table
+# Sent to the player wiping an empty table
 &MSG_WIPE_NONE %va=No initiatives to wipe.
 -
 
-// Sent to the player when changing things.
+# Sent to the player when changing things.
 &MSG_SELF_SETSTUFF %va=You have changed %0's %1 \
   from [u(%va/fn_cnum,%2)] \
   to [u(%va/fn_cnum,%3)].
 -
 
-// Sent to others when changing things.
+# Sent to others when changing things.
 &MSG_OTHER_SETSTUFF %va=[moniker(%#)] has changed %0's %1 \
   from [u(%va/fn_cnum,%2)] \
   to [u(%va/fn_cnum,%3)].
 -
 
-// ------------------------------------------------------------
-// External Data interface
+# ------------------------------------------------------------
+# External Data interface
 
 &FN_GET_INIT %va=ulocal(#1687/fn-initiative,%0,T)
 -
@@ -159,10 +159,10 @@ QUIT
 &FN_LOCATION_IC %va=get(%l/ic_zone)
 -
 
-// ------------------------------------------------------------
-// Commands
+# ------------------------------------------------------------
+# Commands
 
-// load some example crap for testing
+# load some example crap for testing
 &CMD_INIT_DEMO %va=$+init/demo:
 think setq(b,+init/demo);
 &_inits %l=
@@ -177,7 +177,7 @@ think setq(b,+init/demo);
 @oemit %#=msg(h,%qb,moniker(%#) has reset inits to demo values.)
 -
 
-// load 50 npc's
+# load 50 npc's
 &CMD_INIT_DEMO2 %va=$+init/demo2:
 think setq(b,+init/demo2);
 &_inits %l=iter(lnum(1,50),
@@ -186,7 +186,7 @@ think setq(b,+init/demo2);
 @oemit %#=msg(h,%qb,moniker(%#) has reset inits to demo values.)
 -
 
-// load 10 pc's (really the same pc 10 times)
+# load 10 pc's (really the same pc 10 times)
 &CMD_INIT_DEMO3 %va=$+init/demo3:
 think setq(b,+init/demo3);
 &_inits %l=iter(lnum(1,10),
@@ -230,14 +230,14 @@ think setq(m,u(%va/fn_expression,%5));
 @set %va/CMD_INIT_NPC=regexp
 -
 
-// Show the list of inits!  Registers used in sorting:
-//   %qi is a literal cache of &_inits (same format)
-//   %ql is cache of calculated effective inits and full list of
-//       init-checks (effective init, base init, then d10s...)
-//       ql format is just the list of numbers to check in the same order as
-//       qi, delimited by `.
-//   %qs sorted list of qi slot indexes
-//   we then sort a slot list, held without registers, generated by lnum(...)
+# Show the list of inits!  Registers used in sorting:
+#   %qi is a literal cache of &_inits (same format)
+#   %ql is cache of calculated effective inits and full list of
+#       init-checks (effective init, base init, then d10s...)
+#       ql format is just the list of numbers to check in the same order as
+#       qi, delimited by `.
+#   %qs sorted list of qi slot indexes
+#   we then sort a slot list, held without registers, generated by lnum(...)
 
 &CMD_INIT_LIST %va=$^\+init(s|/list)$:
 think setq(b,+init/list);
@@ -317,16 +317,16 @@ think setq(b,+init/wipe);
 @oemit %#=msg(h,%qb,u(%va/msg_other_wipe));
 -
 
-// Cover the set commands
-// b - cmd banner
-// i - _inits cache
-// p - initslot index of matched name (set in fn_table_match)
-// c - character taken from _inits slot p
-// s - calculated expression
-// k - column index of target stat
-// n - name of character
-// m - name of stat
-// o - former value
+# Cover the set commands
+# b - cmd banner
+# i - _inits cache
+# p - initslot index of matched name (set in fn_table_match)
+# c - character taken from _inits slot p
+# s - calculated expression
+# k - column index of target stat
+# n - name of character
+# m - name of stat
+# o - former value
 &CMD_INIT_SETSTUFF %va=$^\+init/set(init|mod|roll) +([^=|`#]+) *= *[+]?((-?[0-9]+ *[-+] *)*-?[0-9]+)$:
 think setq(b,+init/set%1);
 think setq(i,get(%l/_inits));
@@ -363,10 +363,10 @@ think setq(o,index(%qc,|,%qk,1));
 @set %va/CMD_INIT_SETSTUFF=regexp
 -
 
-// ------------------------------------------------------------
-// Formatting for init/list lines
+# ------------------------------------------------------------
+# Formatting for init/list lines
 
-// name, mod, total, hidedots, ties
+# name, mod, total, hidedots, ties
 &LINE_INIT %va=
   strcat(
     setq(8,if(%3,%b,.)),
@@ -389,8 +389,8 @@ think setq(o,index(%qc,|,%qk,1));
   u(%va/line_init,%6 ([moniker(%2)]),%4,ladd(%7 %4 %5),0,if(words(%3),(%3)))
 -
 
-// ------------------------------------------------------------
-// Filters
+# ------------------------------------------------------------
+# Filters
 
 &FIL_OBSERVABLE %va=
   not(hasflag(%0,dark))
@@ -402,14 +402,14 @@ think setq(o,index(%qc,|,%qk,1));
     0)
 -
 
-// ------------------------------------------------------------
-// SortBy functions
+# ------------------------------------------------------------
+# SortBy functions
 
 &SORT_IDLE %va=sub(idle(%0),idle(%1))
 -
 
-// sort init slots; see cmd_init_list for explanations of the
-// registers
+# sort init slots; see cmd_init_list for explanations of the
+# registers
 &SORT_INIT %va=
   strcat(
     setq(0,index(%ql,`,%0,1)),
@@ -437,15 +437,15 @@ think setq(o,index(%qc,|,%qk,1));
       sub(first(%1),first(%0))))
 -
 
-// ------------------------------------------------------------
-// Init sorting helpers
+# ------------------------------------------------------------
+# Init sorting helpers
 
-// List of things to check when comparing initiative order
-// Input is an init-element, either Player|... or NPC|...
-// Output is a list of numbers to compare in turn;
-//   Effective init
-//   Dexterity + Composure
-//   Tiebreak dicerolls rolled so far for that participant
+# List of things to check when comparing initiative order
+# Input is an init-element, either Player|... or NPC|...
+# Output is a list of numbers to compare in turn;
+#   Effective init
+#   Dexterity + Composure
+#   Tiebreak dicerolls rolled so far for that participant
 &FN_INIT_LIST %va=
   trim(
     switch(first(%0,|),
@@ -467,11 +467,11 @@ think setq(o,index(%qc,|,%qk,1));
       #-1))
 -
 
-// Add d10's to a slot - %0 is the slot number
-// Imperative function that modifies %qi/%ql (see cmd_init_list)
-// no output
-// d - die roll
-// e - element
+# Add d10's to a slot - %0 is the slot number
+# Imperative function that modifies %qi/%ql (see cmd_init_list)
+# no output
+# d - die roll
+# e - element
 &FN_APPEND_TIE_BREAK %va=
   strcat(
     setq(d,die(1,10)),
@@ -482,10 +482,10 @@ think setq(o,index(%qc,|,%qk,1));
         lreplace(%qe,3,trim(cat(index(%qe,|,3,1),%qd)),|),`)))
 -
 
-// Match a name to something in the init table
-// i - table to match against
-// p - resulting slot index
-// %0 - name
+# Match a name to something in the init table
+# i - table to match against
+# p - resulting slot index
+# %0 - name
 &FN_TABLE_MATCH %va=
   switch(1,
     or(not(strlen(%0)),match(me,%0)),
@@ -500,8 +500,8 @@ think setq(o,index(%qc,|,%qk,1));
     0)
 -
 
-// ------------------------------------------------------------
-// Expression parsing and evaluation
+# ------------------------------------------------------------
+# Expression parsing and evaluation
 
 &FN_NORMALIZE_EXPRESSION %va=
   switch(
@@ -532,14 +532,14 @@ think setq(o,index(%qc,|,%qk,1));
   ladd(u(%va/fn_normalize_expression,%0),+)
 -
 
-// ------------------------------------------------------------
-// Formating
+# ------------------------------------------------------------
+# Formating
 
-// colored numbers!
+# colored numbers!
 &FN_CNUM %va=ansi(get(%va/v_color_number),%0)
 -
 
-// count, singularform, pluralform
+# count, singularform, pluralform
 &FN_PLURAL %va=
   if(sub(%0,1),%2,%1)
 -
