@@ -1,0 +1,570 @@
+# Copyright (c) 2010-2011 Emily Backes
+#
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+#     * Neither the name of the author nor the names of other
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+QUIT
+@va me=#17426
+-
+@set %va=!indestructable visual inherit
+-
+@wipe %va
+-
+@desc %va=Commands for establishing and monitoring initiative during combat
+-
+@va %va=#17426
+-
+
+# ------------------------------------------------------------
+# Config Variables
+
+&V_COLOR_NUMBER %va=gh
+-
+
+# ------------------------------------------------------------
+# Messages
+
+# Sent on +init in ooc rooms
+&MSG_NOT_IC %va=This is not an IC location.
+-
+
+# Sent on +init/list or +inits when there are none
+&MSG_NO_INITS %va=There are no active initiatives rolled.
+-
+
+# Sent on +init to self
+# dieroll, sheetbonus, manual expr, comment
+&MSG_SELF_INIT %va=
+  You rolled initiative of \
+    [elist(
+      [u(%va/fn_cnum,%0)]|
+      have sheet initiative bonus of [u(%va/fn_cnum,%1)]
+      [if(or(u(%va/fn_expression,%2),strlen(%3)),
+         |applied manual bonus of \
+          [u(%va/fn_pretty_print_expression,%2)]
+          [if(strlen(%3),%b(%3))])],
+      and,|)], \
+    for a total of [u(%va/fn_cnum,
+                      ladd(%0 %1 [u(%va/fn_expression,%2)]))].
+-
+
+# Sent on +init when you already have one.
+&MSG_INIT_ALREADY %va=
+  You have already rolled initiative.  See help for [elist(iter(+init +init/list +init/setmod +init/setroll +init/clear,ansi(h,itext(0))))] for more information.
+-
+
+# Sent to others when you roll +init
+# char dbref, dieroll, sheetbonus, manual expr, comment
+&MSG_OTHER_INIT %va=
+  squish(
+    [moniker(%0)] rolled initiative \
+      [switch(u(%va/fn_expression,%3),
+         0,,
+           with manual bonus of [u(%va/fn_pretty_print_expression,%3)]%b)]
+      [if(strlen(%4),(%4)%b)]
+      for a total of [u(%va/fn_cnum,
+                        ladd(%1 %2 [u(%va/fn_expression,%3)]))].)
+-
+
+# Sent on +init/npc for npcs already present and owned by the player
+&MSG_INIT_NPC_ALREADY %va=That NPC is alread in the initiative table.
+-
+
+# Sent on +init/npc for npcs already present and owned by someone else
+&MSG_INIT_NPC_PLAYER_TAKEN %va=
+  [setq(c,pmatch(%0))]
+  The name '%0' is in use by character [name(%qc)](%qc)(alias [get(%qc/alias)]).
+-
+
+# Sent to the player when they add an npc
+# name, sheet init, manual mod, dice
+&MSG_SELF_INIT_NPC %va=
+  You added an NPC named '[ansi(h,%0)]' \
+  with sheet initiative [u(%va/fn_cnum,%1)], \
+  [if(%2,manual bonus of [u(%va/fn_cnum,%2)]\,%b)]
+  and roll of [u(%va/fn_cnum,%3)] \
+  for a total of [u(%va/fn_cnum,ladd(%1 %2 %3))].
+-
+
+# Sent to others when the player adds an NPC
+# name, sheet init, manual mod, dice
+&MSG_OTHER_INIT_NPC %va=
+  [moniker(%#)] added an NPC named '[ansi(h,%0)]' \
+  with an initiative total of [u(%va/fn_cnum,ladd(%1 %2 %3))].
+-
+
+# Sent when you +init/clear, +init/set* a name that can't be found
+&MSG_NAME_UNKNOWN %va=
+  if(strlen(%0),
+    Unable to find the name '%0' in the table.,
+    You have not rolled initiative.)
+-
+
+# Sent when you +init/setinit and no NPC matches
+&MSG_NOT_NPC %va=The %qb command only operates on NPCs.
+-
+
+# Sent to player when they've successfully cleared their init
+&MSG_SELF_CLEAR_SELF %va=You have cleared your initiative.
+-
+
+# Sent to others when the player has successfully cleared their init
+&MSG_OTHER_CLEAR_SELF %va=moniker(%#) has cleared %p initiative.
+-
+
+# Sent to player when they've successfully cleared their NPC's init
+&MSG_SELF_CLEAR_NPC %va=You have cleared initiative for the NPC '%0.'
+-
+
+# Sent to others when the player has successfully cleared their NPC's init
+&MSG_OTHER_CLEAR_NPC %va=moniker(%#) has cleared initiative for the NPC '%0.'
+-
+
+# Sent to staffer when they clear someone's init
+&MSG_SELF_CLEAR_OTHER %va=You have cleared initiative for %0.
+-
+
+# Sent to others when a staffer clears someone's init
+&MSG_OTHER_CLEAR_OTHER %va=moniker(%#) has cleared initiative for player %0.
+-
+
+# Sent to a staffer wiping the init table
+&MSG_SELF_WIPE %va=You have wiped the initiative table.
+-
+
+# Sent to others when the table is wiped
+&MSG_OTHER_WIPE %va=moniker(%#) wiped the initiative table.
+-
+
+# Sent to the player wiping an empty table
+&MSG_WIPE_NONE %va=No initiatives to wipe.
+-
+
+# Sent to the player when changing things.
+&MSG_SELF_SETSTUFF %va=You have changed %0's %1 \
+  from [u(%va/fn_cnum,%2)] \
+  to [u(%va/fn_cnum,%3)].
+-
+
+# Sent to others when changing things.
+&MSG_OTHER_SETSTUFF %va=[moniker(%#)] has changed %0's %1 \
+  from [u(%va/fn_cnum,%2)] \
+  to [u(%va/fn_cnum,%3)].
+-
+
+# ------------------------------------------------------------
+# External Data interface
+
+&FN_GET_INIT %va=ulocal(#1687/fn-initiative,%0,T)
+-
+
+&FN_GET_STAT %va=getstat(%0,ucstr(%1),T)
+-
+
+&FN_LOCATION_IC %va=get(%l/ic_zone)
+-
+
+# ------------------------------------------------------------
+# Commands
+
+&CMD_INIT %va=$^\+init( *[+]?((-?[0-9]+ *[-+] *)*-?[0-9]+)( *\(([^)]+)\))?)?$:
+think setq(b,+init);
+@assert u(%va/fn_location_ic)=
+  @pemit %#=msg(h,%qb,u(%va/msg_not_ic));
+think setq(i,get(%l/_inits));
+@assert not(strlen(filter(%va/fil_init_player,%qi,`,`)))=
+  @pemit %#=msg(h,%qb,u(%va/msg_init_already));
+think setq(d,die(1,10));
+think setq(s,u(%va/fn_get_init,%#));
+&_inits %l=%qi[if(strlen(%qi),`)]Player|%#||[u(%va/fn_expression,%2)]|%qd;
+@pemit %#=msg(h,%qb,u(%va/msg_self_init,%qd,%qs,%2,%5));
+@oemit %#=msg(h,%qb,u(%va/msg_other_init,%#,%qd,%qs,%2,%5))
+-
+@set %va/CMD_INIT=regexp
+-
+
+&CMD_INIT_NPC %va=$^\+init/npc +([^=|`#]+) *= *[+]?((-?[0-9]+ *[-+] *)*-?[0-9]+)( */ *[+]?((-?[0-9]+ *[-+] *)*-?[0-9]+))?$:
+think setq(b,+init/npc);
+@assert u(%va/fn_location_ic)=
+  @pemit %#=msg(h,%qb,u(%va/msg_not_ic));
+think setq(i,get(%l/_inits));
+@assert not(match(%qi,NPC|*|%1|*,`))=
+  @pemit %#=msg(h,%qb,u(%va/msg_init_npc_already));
+@assert not(t(pmatch(%1)))=
+  @pemit %#=msg(h,%qb,u(%va/msg_init_npc_player_taken,%1));
+think setq(d,die(1,10));
+think setq(s,u(%va/fn_expression,%2));
+think setq(m,u(%va/fn_expression,%5));
+&_inits %l=%qi[if(strlen(%qi),`)]NPC|%#||%qm|%qd|%1|%qs;
+@pemit %#=msg(h,%qb,u(%va/msg_self_init_npc,%1,%qs,%qm,%qd));
+@oemit %#=msg(h,%qb,u(%va/msg_other_init_npc,%1,%qs,%qm,%qd))
+-
+@set %va/CMD_INIT_NPC=regexp
+-
+
+# Show the list of inits!  Registers used in sorting:
+#   %qi is a literal cache of &_inits (same format)
+#   %ql is cache of calculated effective inits and full list of
+#       init-checks (effective init, base init, then d10s...)
+#       ql format is just the list of numbers to check in the same order as
+#       qi, delimited by `.
+#   %qs sorted list of qi slot indexes
+#   we then sort a slot list, held without registers, generated by lnum(...)
+
+&CMD_INIT_LIST %va=$^\+init(s|/list)$:
+think setq(b,+init/list);
+think setq(i,get(%l/_inits));
+@pemit %#=
+  strcat(
+    u(%va/fn_header,Initiative List),
+    if(words(%qi,`),
+      strcat(
+        %r,
+        ansi(h,stripansi(u(%va/line_init,Name,Modifier,Total,1,Tiebreaks)))%r,
+        u(%va/fn_divider)),
+      strcat(%r%r,
+        center(u(%va/msg_no_inits),width(%#))%r)));
+think setq(l,iter(%qi,u(%va/fn_init_list,itext(0)),`,`));
+think list(
+  setr(s,sortby(%va/sort_init,lnum(1,words(%qi,`)))),
+  strcat(
+    setq(e,index(%qi,`,itext(0),1)),
+    strfunc(u,%va/line_init_[first(%qe,|)]||%qe,|)));
+&_inits %l=if(words(%qi,`),iter(%qs,index(%qi,`,itext(0),1),%b,`));
+think setq(p,setunion(iter(%qi,index(itext(0),|,2,1),`,%b),));
+think setq(o,setdiff(lcon(%l,CONNECT),%qp));
+@pemit %#=
+  strcat(
+    if(words(%qo),
+      strcat(
+	u(%va/fn_divider,Non-rolling Observers)%r,
+	wrap(
+	  elist(
+	    iter(sortby(%va/sort_idle,%qo),
+	      strcat(
+		moniker(itext(0)),
+		%b,
+		%(,
+		singletime(idle(itext(0))),
+		%)),
+	      %b,|),
+	    and,|),width(%#))%r)),
+    u(%va/fn_footer,
+      cat(setr(c,words(%qi,`)),
+	active,
+	u(%va/fn_plural,%qc,participant,participants))))
+-
+@set %va/CMD_INIT_LIST=regexp
+-
+
+&CMD_INIT_CLEAR %va=$^\+init/clear( *(.+))?$:
+think setq(b,+init/clear);
+think setq(i,get(%l/_inits));
+think u(%va/fn_table_match,%2);
+@assert %qp=
+  @pemit %#=msg(h,%qb,u(%va/msg_name_unknown,%2));
+think setq(o,index(%qi,`,%qp,1));
+think setq(n,switch(%qo,
+  Player|*,moniker(index(%qo,|,2,1)),
+  NPC|*,index(%qo,|,6,1),
+  #-1));
+think setq(t,switch(%qo,
+  Player|%#|*,self,
+  Player|*,other,
+  NPC|*,npc,
+  #-1));
+&_inits %l=ldelete(%qi,%qp,`);
+@pemit %#=msg(h,%qb,u(%va/msg_self_clear_%qt,%qn));
+@oemit %#=msg(h,%qb,u(%va/msg_other_clear_%qt,%qn));
+-
+@set %va/CMD_INIT_CLEAR=regexp
+-
+
+&CMD_INIT_WIPE %va=$+init/wipe:
+think setq(b,+init/wipe);
+@assert strlen(get(%l/_inits))=
+  @pemit %#=msg(h,%qb,u(%va/msg_wipe_none));
+&_inits %l;
+@pemit %#=msg(h,%qb,u(%va/msg_self_wipe));
+@oemit %#=msg(h,%qb,u(%va/msg_other_wipe));
+-
+
+# Cover the set commands
+# b - cmd banner
+# i - _inits cache
+# p - initslot index of matched name (set in fn_table_match)
+# c - character taken from _inits slot p
+# s - calculated expression
+# k - column index of target stat
+# n - name of character
+# m - name of stat
+# o - former value
+&CMD_INIT_SETSTUFF %va=$^\+init/set(init|mod|roll) +([^=|`#]+) *= *[+]?((-?[0-9]+ *[-+] *)*-?[0-9]+)$:
+think setq(b,+init/set%1);
+think setq(i,get(%l/_inits));
+think u(%va/fn_table_match,%2);
+@assert %qp=
+  @pemit %#=msg(h,%qb,u(%va/msg_name_unknown,%2));
+think setq(c,index(%qi,`,%qp,1));
+@assert not(and(match(%1,init),match(%qc,Player|*)))=
+  @pemit %#=msg(h,%qb,u(%va/msg_not_npc));
+think setq(s,u(%va/fn_expression,%3));
+think setq(k,switch(%1,
+  init,7,
+  mod,4,
+  roll,5,
+  #-1));
+&_inits %l=
+  lreplace(%qi,%qp,
+    lreplace(%qc,%qk,%qs,|),`);
+think setq(n,switch(1,
+  match(%qc,Player|*),moniker(index(%qc,|,2,1)),
+  match(%qc,NPC|*),index(%qc,|,6,1),
+  #-1));
+think setq(m,switch(%1,
+  init,base initiative (dex+comp),
+  mod,manual initiative modifier,
+  roll,initiative roll,
+  #-1));
+think setq(o,index(%qc,|,%qk,1));
+@pemit %#=msg(h,%qb,
+  u(%va/msg_self_setstuff,%qn,%qm,%qo,%qs));
+@oemit %#=msg(h,%qb,
+  u(%va/msg_other_setstuff,%qn,%qm,%qo,%qs));
+-
+@set %va/CMD_INIT_SETSTUFF=regexp
+-
+
+# ------------------------------------------------------------
+# Formatting for init/list lines
+
+# name, mod, total, hidedots, ties
+&LINE_INIT %va=
+  strcat(
+    setq(8,if(%3,%b,.)),
+    setr(9,if(strlen(%0),strtrunc(%0,41)%b)),
+    ansi(hx,repeat(%q8,sub(42,strlen(%q9)))),
+    setq(9,if(or(%1,%3),strcat(%b,strtrunc(%1,8),%b))),
+    ansi(hx,repeat(%q8,sub(10,strlen(%q9)))),
+    %q9,
+    setq(9,if(strlen(%2),strcat(%b,u(%va/fn_cnum,strtrunc(%2,8))))),
+    ansi(hx,repeat(%q8,sub(9,strlen(%q9)))),
+    %q9,
+    if(strlen(%4),ansi(hx,%b%4)))
+-
+
+&LINE_INIT_PLAYER %va=
+  u(%va/line_init,moniker(%2),%4,ladd(u(%va/fn_get_init,%2) %4 %5),0,if(words(%3),(%3)))
+-
+
+&LINE_INIT_NPC %va=
+  u(%va/line_init,%6 ([moniker(%2)]),%4,ladd(%7 %4 %5),0,if(words(%3),(%3)))
+-
+
+# ------------------------------------------------------------
+# Filters
+
+&FIL_OBSERVABLE %va=
+  not(hasflag(%0,dark))
+-
+
+&FIL_INIT_PLAYER %va=
+  switch(%0,
+    Player|%#|*,1,
+    0)
+-
+
+# ------------------------------------------------------------
+# SortBy functions
+
+&SORT_IDLE %va=sub(idle(%0),idle(%1))
+-
+
+# sort init slots; see cmd_init_list for explanations of the
+# registers
+&SORT_INIT %va=
+  strcat(
+    setq(0,index(%ql,`,%0,1)),
+    setq(1,index(%ql,`,%1,1)),
+    setq(2,u(%va/sort_init_list,%q0,%q1)),
+    switch(%q2,
+      0,strcat(
+        switch(1,
+          eq(words(%q0),words(%q1)),
+            strcat(
+              u(%va/fn_append_tie_break,%0),
+              u(%va/fn_append_tie_break,%1)),
+          gt(words(%q0),words(%q1)),
+            u(%va/fn_append_tie_break,%1),
+          u(%va/fn_append_tie_break,%0)),
+        u(%va/sort_init,%0,%1)),
+      %q2))
+-
+
+&SORT_INIT_LIST %va=
+  switch(1,
+    or(not(words(%0)),not(words(%1))),0,
+    switch(sub(first(%1),first(%0)),
+      0,u(%va/sort_init_list,rest(%0),rest(%1)),
+      sub(first(%1),first(%0))))
+-
+
+# ------------------------------------------------------------
+# Init sorting helpers
+
+# List of things to check when comparing initiative order
+# Input is an init-element, either Player|... or NPC|...
+# Output is a list of numbers to compare in turn;
+#   Effective init
+#   Dexterity + Composure
+#   Tiebreak dicerolls rolled so far for that participant
+&FN_INIT_LIST %va=
+  trim(
+    switch(first(%0,|),
+      Player,
+	cat(
+	  add(
+	    u(%va/fn_get_init,setr(0,index(%0,|,2,1))),
+	    index(%0,|,4,1),
+	    index(%0,|,5,1)),
+	  add(
+	    u(%va/fn_get_stat,%q0,dexterity),
+	    u(%va/fn_get_stat,%q0,composure)),
+	  index(%0,|,3,1)),
+      NPC,
+	cat(
+	  ladd(iter(4 5 7,index(%0,|,itext(0),1))),
+	  index(%0,|,7,1),
+	  index(%0,|,3,1)),
+      #-1))
+-
+
+# Add d10's to a slot - %0 is the slot number
+# Imperative function that modifies %qi/%ql (see cmd_init_list)
+# no output
+# d - die roll
+# e - element
+&FN_APPEND_TIE_BREAK %va=
+  strcat(
+    setq(d,die(1,10)),
+    setq(l,lreplace(%ql,%0,cat(index(%ql,`,%0,1),%qd),`)),
+    setq(e,index(%qi,`,%0,1)),
+    setq(i,
+      lreplace(%qi,%0,
+        lreplace(%qe,3,trim(cat(index(%qe,|,3,1),%qd)),|),`)))
+-
+
+# Match a name to something in the init table
+# i - table to match against
+# p - resulting slot index
+# %0 - name
+&FN_TABLE_MATCH %va=
+  switch(1,
+    or(not(strlen(%0)),match(me,%0)),
+      setr(p,match(%qi,Player|%#|*|*|*,`)),
+    t(setr(p,match(%qi,NPC|%#|*|*|*|%0|*,`))),%qp,
+    t(setr(p,match(%qi,NPC|%#|*|*|*|%0*|*,`))),%qp,
+    t(setr(p,match(%qi,NPC|%#|*|*|*|*%0*|*,`))),%qp,
+    t(setr(p,match(%qi,NPC|*|*|*|*|%0|*,`))),%qp,
+    t(setr(p,match(%qi,NPC|*|*|*|*|%0*|*,`))),%qp,
+    t(setr(p,match(%qi,NPC|*|*|*|*|*%0*|*,`))),%qp,
+    t(setr(p,match(%qi,Player|[pmatch(%0)]|*|*|*,`))),%qp,
+    0)
+-
+
+# ------------------------------------------------------------
+# Expression parsing and evaluation
+
+&FN_NORMALIZE_EXPRESSION %va=
+  switch(
+    edit(
+      edit(
+        edit(
+          edit(
+            strcat(0+,strip(%0,%b)),
+            -+,-),
+          --,+),
+        -,+-),
+      ++,+),
+    0+,0,
+    0+*,after(#$,+))
+-
+
+&FN_PRETTY_PRINT_EXPRESSION %va=
+  edit(
+    iter(u(%va/fn_normalize_expression,%0),
+      strcat(
+        switch(sign(itext(0)),-1,-),
+        u(%va/fn_cnum,abs(itext(0)))),
+      +,%b+%b),
+    %b+%b-,%b-%b)
+-
+
+&FN_EXPRESSION %va=
+  ladd(u(%va/fn_normalize_expression,%0),+)
+-
+
+# ------------------------------------------------------------
+# Formating
+
+# colored numbers!
+&FN_CNUM %va=ansi(get(%va/v_color_number),%0)
+-
+
+# count, singularform, pluralform
+&FN_PLURAL %va=
+  if(sub(%0,1),%2,%1)
+-
+
+&FN_HEADER %va=
+  u(%va/fn_banner,%0,=)
+-
+&FN_DIVIDER %va=
+  u(%va/fn_banner,%0,-)
+-
+&FN_FOOTER %va=
+  u(%va/fn_banner,%0,=,1)
+-
+
+&FN_BANNER %va=
+  strcat(
+    setq(9,
+      if(strlen(%0),
+        cat(
+          ansi(c,repeat(%1,4)<),
+          ansi(h,%0),
+          ansi(c,strcat(>,repeat(%1,4)))))),
+    setq(8,
+      ansi(c,repeat(%1,sub(width(%#),strlen(%q9))))),
+    if(%2,%q8),
+    %q9,
+    if(not(%2),%q8))
+-
+

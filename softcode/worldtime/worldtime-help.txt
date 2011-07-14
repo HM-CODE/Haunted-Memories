@@ -1,0 +1,15 @@
+%chSyntax%cn
+%t+worldtime
+%t+worldtime <ZONE or PLACE>
+
+%chExamples%cn
+%t+worldtime
+%t+worldtime PDT
+%t+worldtime Egypt
+%t+worldtime +1300
+
+%chDescription%cn
+
+%tDisplays the current time in various timezones throughout the world. The server time is listed in red. Universal time is listed in cyan.  Other common timezones are listed in white.
+
+Worldtimes idea courtesy Veit@HM. Code by Chime@HM. Zone data by Chime@HM from Wikipedia.
