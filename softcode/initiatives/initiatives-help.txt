@@ -1,0 +1,83 @@
++help/create init=%chThe +INIT Combat Tracking System%cn
+
+These commands provide a quick means of determining who moves when in NWOD
+combat scenes. Quick summary:
+
+    %chCommand                       Detailed help page%cn
+    %cc----------------------------- --------------------------------------------%cn
+    +init [expr [(comment)]]      init commands 1
+    +init/npc name=expr[/expr]    init commands 1 
+    +init/list                    init commands 1
+    +inits                        init commands 1
+    +init/setinit name=expr       init commands 2
+    +init/setmod name=expr        init commands 2
+    +init/setroll name=expr       init commands 2
+    +init/clear [name]            init commands 2
+    +init/wipe                    init commands 2
+
+Things in square brackets are optional. 'Expr' means a dice expression;
+this can be a simple number or more complex expressions like 1 + 2 + 3 - 4.
+
++help/create init commands 1=%ch+init [exp[ (comment)]]%cn
+%tRolls the player's initiative, adding their sheet initiative to the
+%toptional expression and a d10. Don't include Fast-reflexes unless
+%tyou have it from a pledge.
+
+%ch+init/npc name=exp[/exp]%cn
+%tCreates a new NPC slot under the player's control and rolls
+%tinitiative for them. The first number is their basic initiative
+%t(dex+comp); the second is their bonus. For NPCs, the fast reflexes
+%tmerit should be added as a manual bonus, but this is not the case
+%tfor PCs. Four (4) is a sane default for normal humans.
+
+%ch+init/list%cn
+%tList all active initiatives, in order, one per line.
+
+%ch+inits%cn
+%tAlias of +init/list for lazy people.
+
++help/create init commands 2=%ch+init/setinit name=expr%cn
+%tModifies an NPC's basic initiative score. This is the
+%tdexterity+composure or finesse+resistence. You can't do this to PC
+%twithout using the +xp command.
+
+%ch+init/setmod name=expr%cn
+%tModifies a player or NPC's manual initmod. These are the manually
+%tapplied bonuses, such as pledge features or Combat Marksmanship
+%t(when holding a gun) or Iaido (when holding a sword), etc. Celerity
+%tand Fresh start can also be handled using this modifier. Werewolves
+%tdo not need to use this when shifting (unless losing/gaining Combat
+%tMarksmanship bonuses) because shifting alters stats in a way that
+%tthe table will already notice.
+
+%ch+init/setroll name=expr%cn
+%tModifies a player or NPC's dice roll value.
+
+%ch+init/clear [name]%cn
+%tRemove a player's or NPC's initiative. Defaults to yours.
+
+%ch+init/wipe%cn
+%tRemove all initiatives.
+
+Init Examples
+
++help/create init examples=These are the common cases that seem to come up most often.
+
+I need to roll init!
+%t+init
+
+I need to roll init with a pledge bonus
+%t+init 3+3 (Combat marksmanship and I kissed a Changeling)
+
+I need to add a thug!
+%t+init/npc Gnarly Thug=4
+
+I need to see what's going on!
+%t+inits
+
+I need to redo my modifier because the ST yelled at me!
+%t+init/setmod me=2
+
+
+
+
