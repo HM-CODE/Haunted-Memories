@@ -21,6 +21,7 @@ See the _External Data Interface_ section for attributes that need replacing for
 Internal @function dependencies:
 
 * msg()
+* moniker() - not normally present on RHOST but should work like the MUX one
 
 Consider replacing:
 
