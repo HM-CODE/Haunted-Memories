@@ -1,0 +1,279 @@
+# Copyright (c) 2011 Emily Backes
+#
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+#     * Neither the name of the author nor the names of other
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+QUIT
+@va me=#12911
+-
+@set %va=!indestructable visual !inherit !halted
+-
+@wipe %va
+-
+@desc %va=World time zone tool
+-
+@va %va=#12911
+-
+
+&cmd_worldtime %va=$^\+worldtimes?$:
+@pemit %#=header(World Times);
+think setq(z,u(%va/fn_tz_sec,u(%va/fn_local)));
+think setq(n,sub(secs(),%qz));
+think \
+  list(
+    sortby(%va/sort_tz,iter(lattr(%va/tz_*),after(itext(0),_))),
+    u(%va/line_zone,%qn,itext(0),u(%va/fn_tz_sec,itext(0)),%qz));
+@pemit %#=
+  tail(
+    Server time is [ansi(hr,red)].%r
+    Universal time is [ansi(hc,cyan)].%r
+    Use +worldtime <zonename> for info on a zone.)
+-
+@set %va/cmd_worldtime=regexp
+-
+
+&cmd_worldtime_zone %va=$^\+worldtimes? +(.+)$:
+think setq(b,+worldtime);
+think setq(m,
+  filter(%va/fil_match_names,
+    iter(lattr(%va/tz_*),after(itext(0),_)),
+    %b,%b,
+    %1));
+@assert t(words(%qm))=
+  @pemit %#=msg(h,%qb,No zones match '%1');
+@assert eq(words(%qm),1)=
+  @pemit %#=msg(h,%qb,'%1' matches %qm);
+@pemit %#=header(World Time Zone %qm);
+think setq(z,u(%va/fn_tz_sec,u(%va/fn_local)));
+think setq(n,sub(secs(),%qz));
+@pemit %#=u(%va/line_zone,%qn,%qm,u(%va/fn_tz_sec,%qm),%qz);
+@pemit %#=u(%va/fn_print_zone,v(tz_%qm));
+@pemit %#=tail();
+-
+@set %va/cmd_worldtime_zone=regexp
+-
+
+&v_common %va=-0800 -0700 -0600 -0500 -0400 +0000 +0100 +0200 +0300 +0800 +0900 +0930 +1000 +1030 +1100
+-
+
+# nowsecs, zonename, zonesecs, localzonesecs
+&line_zone %va=
+  ansi(
+    switch(1,
+      eq(%3,%2),rh,
+      eq(0,%2),ch,
+      t(match(v(v_common),%1)),h,
+      n),
+    cat(
+      timefmt($a $b $2D $02h:$02T:$02S $04Y,add(%0,%2)),
+      %1,
+      iter(filter(fil_abbrev,v(tz_%1),|,|),
+	after(itext(0),!),|,%,%b)))
+-
+
+&fil_abbrev %va=
+  strmatch(%0,!*)
+-
+
+&fil_match_names %va=
+  t(
+    match(
+      strcat(
+        %0|,
+        v(tz_%0)),
+      *%1*,|))
+-
+
+&sort_tz %va=
+  sub(u(%va/fn_tz_sec,%1),u(%va/fn_tz_sec,%0))
+-
+
+&fn_print_zone %va=
+  edit(edit(%0,|,%,%b),!,)
+-
+
+&fn_tz_sec %va=
+  localize(
+    strcat(
+      setq(h,mid(%0,1,2)),
+      setq(m,mid(%0,3,2)),
+      setq(l,add(mul(%qh,3600),mul(%qm,60))),
+      switch(%0,
+	-*,-%ql,
+	%ql)))
+-
+
+# figure out the local timezone
+&fn_local %va=
+  localize(
+    switch(version(),
+      MUX*,timefmt($z),
+      RhostMUSH*,
+	strcat(
+	  setq(t,timefmt($02h $02T $04Y,0)),
+	  setq(m,add(mul(first(%qt),60),extract(%qt,2,1))),
+	  switch(%qt,
+	    * 1969,
+	      strcat(
+		-,
+		rjust(div(sub(1440,%qm),60),2,0),
+		rjust(mod(sub(1440,%qm),60),2,0)),
+	    * 1970,
+	      strcat(
+		+,
+		rjust(div(%qm,60),2,0),
+		rjust(mod(%qm,60),2,0)),
+	    #-1 timefmt broken)),
+      #-1 unsupported mushtype))
+-
+
+&tz_-1200 %va=Baker and Howland Islands
+-
+
+&tz_-1100 %va=Jarvis Island|Midway|Niue|Palmyra|Samoa
+-
+
+&tz_-1000 %va=Cook Islands|Tokelau|French Polynesia|United States|US/Hawaii|Hawaii-Aleutian Standard Time|!HAST
+-
+
+&tz_-0930 %va=French Polynesia|Marquesas Islands
+-
+
+&tz_-0900 %va=French Polynesia|Gambier Islands|United States|US/Alaska|Alaskan Standard Time|Hawaii-Aleutian Daylight Time|!AKST|!HADT
+-
+
+&tz_-0800 %va=Canada|CA/British Columbia|CA/Northwest Territories|CA/Yukon|Clipperton|Mexico|MX/Baja California|MX/Clarion|Pitcairn|United States|US/California|US/Idaho|US/Nevada|US/Oregon|US/Washington|Pacific Standard Time|!PST
+-
+
+&tz_-0700 %va=Canada|CA/Alberta|CA/British Columbia|CA/British Columbia|CA/Northwest Territories|CA/Nunavut|CA/Saskatchewan|CA/Yukon|Mexico|MX/Baja California|MX/Baja California Sur|MX/Chihuahua|MX/Nayarit|MX/Sinaloa|United States|US/Arizona|US/California|US/Colorado|US/Idaho|US/Kansas|US/Montana|US/Navajo|US/Nebraska|US/Nevada|US/New Mexico|US/North Dakota|US/Oregon|US/South Dakota|US/Texas|US/Utah|US/Washington|US/Wyoming|Pacific Daylight Time|Mountain Standard Time|!PDT|!MST
+-
+
+&tz_-0600 %va=Belize|Canada|CA/Alberta|CA/British Columbia|CA/Manitoba|CA/Northwest Territories|CA/Nunavut|CA/Nunavut|CA/Ontario|CA/Saskatchewan|Chile|Costa Rica|Ecuador|El Salvador|Guatemala|Honduras|Mexico|MX/Aguascalientes|MX/Baja California Sur|MX/Campeche|MX/Chiapas|MX/Chihuahua|MX/Coahuila1|MX/Colima|MX/Durango|MX/Guanajuato|MX/Guerrero|MX/Hidalgo|MX/Jalisco|MX/Mexico|MX/Michoacan|MX/Morelos|MX/Nayarit|MX/Nuevo Leon|MX/Oaxaca|MX/Puebla|MX/Queretaro|MX/Quintana Roo|MX/San Luis Potosi|MX/Sinaloa|MX/Tabasco|MX/Tamaulipas|MX/Tlaxcala|MX/Veracruz|MX/Yucatan|MX/Zacatecas|Nicaragua|United States|US/Alabama|US/Arkansas|US/Colorado|US/Florida|US/Idaho|US/Illinois|US/Indiana|US/Iowa|US/Kansas|US/Kansas|US/Kentuky|US/Louisiana|US/Michigan|US/Minnesota|US/Mississippi|US/Missouri|US/Montana|US/Navajo|US/Nebraska|US/Nevada|US/New Mexico|US/North Dakota|US/Oklahoma|US/Oregon|US/South Dakota|US/Tennessee|US/Texas|US/Utah|US/Wisconsin|US/Wyoming|Mountain Daylight Time|Central Standard Time|!MDT|!CST
+-
+
+&tz_-0500 %va=Bahamas|Canada|CA/Manitoba|CA/Nunavut|CA/Ontario|CA/Quebec|CA/Southampton Island|Cayman Islands|Colombia|Cuba|Ecuador|Haiti|Jamaica|Mexico|MX/Aguascalientes|MX/Campeche|MX/Chiapas|MX/Coahuila1|MX/Colima|MX/Durango|MX/Guanajuato|MX/Guerrero|MX/Hidalgo|MX/Jalisco|MX/Mexico|MX/Michoacan|MX/Morelos|MX/Nuevo Leon|MX/Oaxaca|MX/Puebla|MX/Queretaro|MX/Quintana Roo|MX/San Luis Potosi|MX/Tabasco|MX/Tamaulipas|MX/Tlaxcala|MX/Veracruz|MX/Yucatan|MX/Zacatecas|Panama|Peru|Turks and Caicos Islands|United States|US/Alabama|US/Arkansas|US/Connecticut|US/Delaware|US/District of Columbia|US/Florida|US/Georgia|US/Illinois|US/Indiana|US/Iowa|US/Kansas|US/Kentucky|US/Louisiana|US/Maine|US/Maryland|US/Massachusetts|US/Michigan|US/Minnesota|US/Mississippi|US/Missouri|US/Nebraska|US/New Hampshire|US/New Jersey|US/New York|US/North Carolina|US/North Dakota|US/Ohio|US/Oklahoma|US/Pennsylvania|US/Rhode Island|US/South Carolina|US/South Dakota|US/Tennessee|US/Texas|US/Vermont|US/Virginia|US/West Virginia|US/Wisconsin|Central Daylight Time|Eastarn Standard Time|!CDT|!EST
+-
+
+&tz_-0430 %va=Venezuela
+-
+
+&tz_-0400 %va=Anguilla|Antigua and Barbuda|Aruba|Brazil|BR/Acre|BR/Amazonas|BR/Mato Grosso|BR/Mato Grosso do Sul|BR/Rondonia|BR/Roraima|Bahamas|Barbados|Bermuda|Bolivia|British Virgin Islands|Canada|CA/Labrador|CA/New Brunswick|CA/Newfoundland|CA/Nunavut|CA/Ontario|CA/Quebec|Chile|Cuba|Curacao|Dominica|Dominican Republic|Falkland Islands|Greenland|Grenada|Guadeloupe|Guyana|Martinique|Montserrat|Paraguay|Puerto Rico|Saint Kitts and Nevis|Saint Lucia|Saint Vincent and the Grenadines|Sint Maarten|Trinidad and Tobago|Turks and Caicos Islands|U.S. Virgin Islands|United States|US/Connecticut|US/Delaware|US/District of Columbia|US/Florida|US/Georgia|US/Indiana|US/Kentucky|US/Maine|US/Maryland|US/Massachusetts|US/Michigan|US/New Hampshire|US/New Jersey|US/New York|US/North Carolina|US/Ohio|US/Pennsylvania|US/Rhode Island|US/South Carolina|US/Tennessee|US/Vermont|US/Virginia|US/West Virginia|Eastern Caribbean Time|Eastern Daylight Time|!ECT|!EDT
+-
+
+&tz_-0330 %va=Canada|CA/Newfoundland|CA/Labrador|Newfoundland Standard Time|Atlantic Standard Time|!NST|!AST
+-
+
+&tz_-0300 %va=Argentina|Brazil|BR/Alagoas|BR/Amapa|BR/Bahia|BR/Ceara|BR/Distrito Federal|BR/Espirito Santo|BR/Goias|BR/Maranhao|BR/Mato Grosso|BR/Mato Grosso do Sul|BR/Minas Gerais|BR/Para|BR/Paraiba|BR/Parana|BR/Pernambuco|BR/Piaui|BR/Rio Grande do Norte|BR/Rio Grande do Sul|BR/Rio de Janeiro|BR/Santa Catarina|BR/Sao Paulo|BR/Sergipe|BR/Tocantins|Bermuda|Canada|CA/Labrador|CA/New Brunswick|CA/Newfoundland|CA/Nova Scotia|CA/Prince Edward Island|Chile|Falkland Islands|French Guiana|Greenland|Paraguay|Saint-Pierre and Miquelon|Suriname|Uruguay|Atlantic Daylight Time|!ADT
+-
+
+&tz_-0230 %va=Canada|CA/Newfoundland|CA/Labrador|Newfoundland Daylight Time|!NDT
+-
+
+&tz_-0200 %va=Brazil|BR/Distrito Federal|BR/Espirito Santo|BR/Fernando de Noronha|BR/Goias|BR/Martim Vaz|BR/Minas Gerais|BR/Parana|BR/Rio Grande do Sul|BR/Rio de Janeiro|BR/Santa Catarina|BR/Sao Paulo|BR/Trindade |Greenland|Saint Pierre and Miquelon|Uruguay
+-
+
+&tz_-0100 %va=Azores|Cape Verde|Greenland
+-
+
+&tz_+0000 %va=Alderney|Ascension Island|Burkina Faso|Cote d'Ivoire|Faroe Islands|Ghana|Greenland|Guernsey|Guinea|Guinea-Bissau|Herm|Iceland|Ireland|Isle of Man|Jersey|Liberia|Mali|Mauritania|Morocco|Portugal|Saint Helena|Sao Tome and Principe|Sark|Senegal|Sierra Leone|Spain|The Gambia|Togo|Tristan da Cunha|UK|United Kingdom|Western Sahara|Coordinated Universal Time|Greenwich Mean Time|Western European Time|!UTC|!WET
+-
+
+&tz_+0100 %va=Albania|Alderney|Algeria|Andorra|Angola|Austria|Belgium|Benin|Bosnia and Herzegovina|Bouvet Island|Cameroon|Canary Islands|Central African Republic|Chad|Croatia|Czech Republic|Denmark|Equatorial Guinea|Faroe Islands|France|Gabon|Germany|Gibraltar|Guernsey|Herm|Hungary|Ireland|Isle of Man|Italy|Jan Mayen|Jersey|Liechtenstein|Luxembourg|Macedonia|Malta|Monaco|Montenegro|Namibia|Netherlands|Niger|Nigeria|Norway|Poland|Portugal|Republic of the Congo|San Marino|Sark|Serbia|Slovakia|Slovenia|Spain|Svalbard|Sweden|Switzerland|Tunisia|United Kingdom|Vatican City|Central European Time|West Africa Time|Western European Summer Time|British Summer Time|Irish Standard Time|Swatch Internet Time|!CET|!WAT|!WEST|!BST|!IST|!SIT
+-
+
+&tz_+0200 %va=Aland|Albania|Andorra|Austria|Belarus|Belgium|Bosnia and Herzegovina|Botswana|Bouvet Island|Bulgaria|Burundi|Croatia|Cyprus|Czech Republic|Democratic Republic of the Congo|Denmark|Egypt|Estonia|Finland|France|Germany|Gibraltar|Greece|Hungary|Israel|Italy|Jan Mayen|Jordan|Latvia|Lebanon|Lesotho|Libya|Liechtenstein|Lithuania|Luxembourg|Macedonia|Malawi|Malta|Moldova|Monaco|Montenegro|Mozambique|Namibia|Netherlands|Norway|Palestine|Poland|Romania|Rwanda|San Marino|Serbia|Slovakia|Slovenia|South Africa|Spain|Svalbard|Swaziland|Sweden|Switzerland|Syria|Tunisia|Turkey|Ukraine|Vatican City|Zambia|Zimbabwe|Central Africa Time|Eastern European Time|Central European Summer Time|West Africa Summer Time|South Africa Standard Time|!CAT|!EET|!CEST|!WAST|!SAST
+-
+
+&tz_+0300 %va=Aland|Bahrain|Belarus|Bulgaria|Comoros|Cyprus|Djibouti|Egypt|Eritrea|Estonia|Ethiopia|Finland|Greece|Iraq|Israel|Jordan|Kaliningrad Oblast|Kenya|Kuwait|Latvia|Lebanon|Lithuania|Madagascar|Mayotte|Moldova|Palestinian territories|Qatar|Romania|Saudi Arabia|Somalia|Sudan|Syria|Tanzania|Turkey|Uganda|Ukraine|Yemen|East Africa Time|Eastern European Summer Time|!EAT|!EEST
+-
+
+&tz_+0330 %va=Iran
+-
+
+&tz_+0400 %va=Armenia|Azerbaijan|Georgia|Mauritius|Oman|Reunion|Russia|Seychelles|United Arab Emirates
+-
+
+&tz_+0430 %va=Afghanistan|Iran
+-
+
+&tz_+0500 %va=Australia|AU/Heard and MacDonald Islands|Armenia|Azerbaijan|Kazakhstan|KZ/Aktobe Province|KZ/Atyrau Province|KZ/Mangystau Province|KZ/West Kazakhstan Province|Maldives|Pakistan|Russia|RU/Bashkortostan|RU/Chelyabinsk Oblast|RU/Kurgan Oblast|RU/Orenburg Oblast|RU/Perm Krai|RU/Sverdlovsk Oblast|RU/Tyumen Oblast|Tajikistan|Turkmenistan|Uzbekistan
+-
+
+&tz_+0530 %va=India|Sri Lanka
+-
+
+&tz_+0545 %va=Nepal
+-
+
+&tz_+0600 %va=Bangladesh|Bhutan|Kazakhstan|Kyrgyzstan|Pakistan|Russia|RU/Altai Krai|RU/Altai Republic|RU/Bashkortostan|RU/Chelyabinsk Oblast|RU/Kemerovo Oblast|RU/Kurgan Oblast|RU/Novosibirsk Oblast|RU/Omsk Oblast|RU/Orenburg Oblast|RU/Perm Krai|RU/Sverdlovsk Oblast|RU/Tyumen Oblast
+-
+
+&tz_+0630 %va=Cocos Islands|Myanmar
+-
+
+&tz_+0700 %va=Cambodia|Christmas Island|Indonesia|ID/Central Kalimantan|ID/Java|ID/Sumatra|ID/West Kalimantan|Laos|Mongolia|MN/Khovd|MN/Uvs|MN/Bayan-Olgii|Russia|RU/Krasnoyarsk|RU/Omsk|Thailand|Vietnam
+-
+
+&tz_+0800 %va=Australia|AU/Western Australia|Brunei|Hong Kong|Indonesia|ID/East and South Kalimantan|ID/Lesser Sunda Islands|ID/Sulawesi|Macau|Malaysia|Mongolia|People's Republic of China|Philippines|Russia|RU/Buryatia|RU/Irkutsk Oblast|RU/Krasnoyarsk Time|Republic of China (Taiwan)|Singapore|Australian Western Standard Time|!AWST
+-
+
+&tz_+0900 %va=East Timor|Indonesia|ID/Moluccas|ID/Papua|ID/West Irian Jaya|Japan|North Korea|Palau|Russia|RU/Amur Oblast|RU/Buryatia|RU/Irkutsk|RU/Sakha Republic|RU/Yakutsk|RU/Zabaykalsky Krai|South Korea|Japanese Standard Time|Korean Standard Time|!JST|!KST
+-
+
+&tz_+0930 %va=Australia|AU/New South Wales|AU/Northern Territory|AU/South Australia|Australian Central Standard Time|!ACST
+-
+
+&tz_+1000 %va=Australia|AU/Austrailian Capital Territory|AU/New South Wales|AU/Queensland|AU/Tasmania|AU/Victoria|Federated States of Micronesia|Guam|Northern Mariana Islands|Papua New Guinea|Russia|RU/Amur Oblast|RU/Chita Oblast|RU/Khabarovsk Krai|RU/Primorksy Krai|RU/Sakha Republic|RU/Sakhalin Island|RU/Vladivosktok|RU/Yakutsk|Australian Eastern Standard Time|!AEST
+-
+
+&tz_+1030 %va=Australia|AU/Lord Howe Island|AU/New South Wales|AU/South Australia|Australian Central Daylight Time|!ACDT
+-
+
+&tz_+1100 %va=Australia|AU/Australian Capital Territory|AU/New South Wales|AU/Tasmania|AU/Victoria|Federated States of Micronesia|New Caledonia|Russia|RU/Khabarovsk Krai|RU/Kuril Islands|RU/Magadan Oblast|RU/Primorsky Krai|RU/Sakha Republic|RU/Sakhalin Island|RU/Vladivostok|Solomon Islands|Vanuatu|Australian Eastern Daylight Time|!AEDT
+-
+
+&tz_+1130 %va=Australia|AU/Norfolk Island
+-
+
+&tz_+1200 %va=Banaba|Fiji|Gilbert Islands|Kiribati|Marshall Islands|Nauru|New Zealand|Russia|RU/Chukotka Autonomous Okrug|RU/Kamchatka Krai|RU/Kuril Islands|RU/Magadan Oblast|RU/Sakha Republic|Tuvalu|Wake Island|Wallis and Futuna
+-
+
+&tz_+1245 %va=New Zealand|NZ/Chatham Islands
+-
+
+&tz_+1300 %va=Fiji|Kanton Island|Kiribati|New Zealand|Samoa|Tonga
+-
+
+&tz_+1345 %va=New Zealand|NZ/Chatham Islands
+-
+
+&tz_+1400 %va=Kiribati|Line Islands
+-
+
