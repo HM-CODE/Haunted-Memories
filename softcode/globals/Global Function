@@ -1,0 +1,2 @@
+&FNP_ISGROUPMEMBER 	#5 = switch( getstat( %0, FACTION ), Changeling, u( %vF/F.ISGROUPMEMBER, %0, %1, Motley ), Mage, u( %vF/F.ISGROUPMEMBER, %0, %1, Cabal ), Sleepwalker, u( %vF/F.ISGROUPMEMBER, %0, %1, Cabal ), Ghoul, u( %vF/F.ISGROUPMEMBER, %0, %1, Coterie ), Vampire, u( %vF/F.ISGROUPMEMBER, %0, %1, Coterie ), Werewolf, u( %vF/F.ISGROUPMEMBER, %0, %1, Pack ), Wolfblood, u( %vF/F.ISGROUPMEMBER, %0, %1, Pack ), 0 )
+-

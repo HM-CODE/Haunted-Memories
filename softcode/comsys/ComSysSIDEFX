@@ -1,0 +1,2 @@
+&FIL.HIDDEN 		#3170 = !match( xget( v( STOR-DB ), CH_HIDDEN_LIST ), %0 )
+-
