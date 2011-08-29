@@ -1,0 +1,7 @@
+&CLIST1 		#3169 = [u(v( FX-DB )/do_genpemit,%#,*** [ljust(Channel,25)][space(3)]Description)][list( filter( v( FX-DB )/FIL.HIDDEN, xget( v( STOR-DB ), CH_LIST ) ),ifelse(or(uldefault([v(F-DB)]/##_lock,1,%#),gte(bittype(%#),5)),[space(4)][u(do_chancolor_##)][space(sub(25,strlen(##)))][ifelse(match(get(%#/_ch_lock),##),%bL%b,%b%b%b)][wrap(get([V(STOR-DB)]/chdesc_##),45,l,,,32)]))]---- End of list of channels ----
+-
+&TRIG.CREATE_GROUPCOM 	#3169 = think setq( 0, strip( %0, %b ) ); @force me = { comcfg/chanadd [r(0)]=%0 Group Channel; comcfg/lock [r(0)]=cor\( isstaff\( %%# \), isgroupmember\( %%#, %0 \) \); @force me={ &DO_CHANCOLOR_[r(0)] [v(F-DB)]=%[ansi%(m,r(0)%)%] }; comcfg/hist [r(0)]=250 }; &CH_HIDDEN_LIST [v( STOR-DB )] = setunion( xget( v( STOR-DB ), CH_HIDDEN_LIST ), r(0) ); 
+-
+&TRIG.DESTROY_GROUPCOM 	#3169 = think setq( 0, strip( %0, %b ) ); @force me = { comcfg/chandel [r(0)]; }; &CH_HIDDEN_LIST [v( STOR-DB )] = setdiff( xget( v( STOR-DB ), CH_HIDDEN_LIST ), r(0) );  think setq( L, locate( v(CH-DB), r(0)LOG, * ) ); @destroy/instant %qL;
+-
+
