@@ -1,7 +1,7 @@
 &valid-merits-a-little-knowledge #1687=A Little Knowledge|Mortal|0:1
 &valid-merits-area-of-expertise #1687=Area of Expertise|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:2
 &valid-merits-common-sense #1687=Common Sense|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:4
-&valid-merits-crafter’s-sense #1687=Crafter's Sense|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:3
+&valid-merits-crafters-sense #1687=Crafter's Sense|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:3
 &valid-merits-danger-sense #1687=Danger Sense|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:2
 &valid-merits-eidetic-memory #1687=Eidetic Memory|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:2
 &valid-merits-encyclopedic-knowledge #1687=Encyclopedic Knowledge|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:4
@@ -19,7 +19,7 @@
 &valid-merits-meditative-mind #1687=Meditative Mind|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1
 &valid-merits-rational-explanation #1687=Rational Explanation|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:4
 &valid-merits-recon-specialist #1687=Recon Specialist|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:2
-&valid-merits-scientist’s-sense #1687=Scientist's Sense|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:3
+&valid-merits-scientists-sense #1687=Scientist's Sense|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:3
 &valid-merits-technophile #1687=Technophile|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1:2
 &valid-merits-territorial-familiarity #1687=Territorial Familiarity|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1:2:3
 &valid-merits-trained-memory #1687=Trained Memory|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1
@@ -77,7 +77,7 @@
 &valid-merits-staff #1687=Staff|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1:2:3:4:5
 &valid-merits-striking-looks #1687=Striking Looks|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:2:4
 &valid-merits-unobtrusive #1687=Unobtrusive|Mortal:Sighted:Sleepwalker:Ghoul:Wolfblood|:3
-&valid-merits-driver’s-charm #1687=Driver's Charm|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1:2:3:4:5
+&valid-merits-drivers-charm #1687=Driver's Charm|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1:2:3:4:5
 &valid-merits-library #1687=Library|Changeling:Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1:2:3:4:5
 &valid-merits-pleasing-aura #1687=Pleasing Aura|Mortal:Sighted:Sleepwalker:Wolfblood|0:3
 &valid-merits-business #1687=Business|Changeling:Enchanted|Mortal:Sighted:Mage:Sleepwalker:Vampire:Ghoul:Werewolf:Wolfblood|0:1:2:3:4:5
@@ -197,7 +197,7 @@
 &valid-merits-torpor-connection #1687=Torpor Connection|Vampire|0:1:2:3:4:5
 &valid-merits-speaker-for-the-eclipsed #1687=Speaker For The Eclipsed|Vampire|0:1:2:3:4:5
 &valid-merits-will-of-the-dynasty #1687=Will of the Dynasty|Vampire|0:3
-&valid-merits-virtue’s-twin #1687=Virtue's Twin|Vampire|0:3
+&valid-merits-virtues-twin #1687=Virtue's Twin|Vampire|0:3
 &valid-merits-tap-the-torpid-mind #1687=Tap The Torpid Mind|Vampire|0:1:2:3:4:5
 &valid-merits-crucible-ritual #1687=Crucible Ritual|Vampire|0:3
 &valid-merits-fontal-ritual #1687=Fontal Ritual|Vampire|0:2
@@ -216,7 +216,7 @@
 &valid-merits-heal-like-stone #1687=Heal Like Stone|Werewolf|0:2
 &valid-merits-metabolic-control #1687=Metabolic Control|Werewolf|0:2
 &valid-merits-moon-centered #1687=Moon-Centered|Werewolf|0:2
-&valid-merits-predator’s-gaze #1687=Predator's Gaze|Werewolf|0:2
+&valid-merits-predators-gaze #1687=Predator's Gaze|Werewolf|0:2
 &valid-merits-synergistics #1687=Synergistics|Werewolf|0:2
 &valid-merits-totem #1687=Totem|Werewolf|0:1:2:3:4:5
 &valid-merits-pack-affinity #1687=Pack Affinity|Werewolf|0:1:3
@@ -230,13 +230,13 @@
 &valid-merits-scout #1687=Scout|Werewolf|0:2
 &valid-merits-staunch-defender #1687=Staunch Defender|Werewolf|0:3
 &valid-merits-vicious-attacker #1687=Vicious Attacker|Werewolf|0:3
-&valid-merits-far-runner’s-intuition #1687=Far-Runner's Intuition|Werewolf|0:3
+&valid-merits-far-runners-intuition #1687=Far-Runner's Intuition|Werewolf|0:3
 &valid-merits-mercy-of-luna #1687=Mercy Of Luna|Werewolf|0:3
 &valid-merits-naturally-deceptive #1687=Naturally Deceptive|Werewolf|0:4
-&valid-merits-pathfinder’s-blessing #1687=Pathfinder's Blessing|Werewolf|0:4
+&valid-merits-pathfinders-blessing #1687=Pathfinder's Blessing|Werewolf|0:4
 &valid-merits-ancestral-vessel #1687=Ancestral Vessel|Werewolf|0:1:2:3:4
 &valid-merits-chain-breaker #1687=Chain-Breaker|Werewolf|0:4
-&valid-merits-prophet’s-voice #1687=Prophet's Voice|Werewolf:Wolfblood|0:3
+&valid-merits-prophets-voice #1687=Prophet's Voice|Werewolf:Wolfblood|0:3
 &valid-merits-lunatic-glare #1687=Lunatic Glare|Wolfblood|0:2
 &valid-merits-watched #1687=Watched|Wolfblood|0:1:2:3:4:5
 &valid-merits-wolf-blooded #1687=Wolf Blooded|Wolfblood|0:2:3:4:5
@@ -270,7 +270,7 @@
 &valid-merits-arcadian-body #1687=Arcadian Body|Changeling|0:4
 &valid-merits-arcadian-metabolism #1687=Arcadian Metabolism|Changeling|0:3
 &valid-merits-bastion #1687=Bastion|Changeling|0:1:2:3:4:5
-&valid-merits-brownie’s-boon #1687=Brownie's Boon|Changeling|0:1
+&valid-merits-brownies-boon #1687=Brownie's Boon|Changeling|0:1
 &valid-merits-charmed-life #1687=Charmed Life|Changeling|0:2
 &valid-merits-court-goodwill #1687=Court Goodwill|Changeling|0:1:2:3:4:5
 &valid-merits-dual-kith #1687=Dual Kith|Changeling|0:3
