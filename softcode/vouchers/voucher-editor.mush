@@ -1,0 +1,76 @@
+QUIT
+
+@va me=#1748
+-
+
+# The old version
+
+# &PR_MAKE_GETPLAYER %va=@switch/f 0=not(strmatch(%0,Q)),@pemit %#=Program terminated,switch(switch(isdbref(setr(0,%0)),1,1,switch(isdbref(setr(0,num(%0))),1,1,switch(isdbref(setr(0,num(*%0))),1,1,0))),1,switch(type(%q0),PLAYER,1,0),0),{@pemit %#=I can't find a player named '%0'. ;@trigger me/TR_MAKE_GETPLAYER=%#},{&M.%#.PLAYERFOR %vd=%q0 ;@trigger %!/TR_MAKE_GETNAME=%#}
+
+# Expanded
+
+#&PR_MAKE_GETPLAYER %va=
+#@switch/f 0=
+#  not(strmatch(%0,Q)),@pemit %#=Program terminated,
+#  switch(
+#    switch(
+#      isdbref(setr(0,%0)),
+#      1,1,
+#      switch(
+#        isdbref(setr(0,num(%0))),
+#        1,1,
+#        switch(
+#          isdbref(setr(0,num(*%0))),
+#          1,1,0))),
+#    1,switch(
+#      type(%q0),
+#      PLAYER,1,
+#      0),
+#    0),{
+#    @pemit %#=I can't find a player named '%0'. ;
+#    @trigger me/TR_MAKE_GETPLAYER=%#},
+#  {
+#  &M.%#.PLAYERFOR %vd=%q0 ;
+#  @trigger %!/TR_MAKE_GETNAME=%#}
+
+# short-fix:
+
+&PR_MAKE_GETPLAYER %va=
+@switch/f 0=
+  not(strmatch(%0,Q)),@pemit %#=Program terminated,
+  switch(
+    switch(
+      isdbref(setr(0,%0)),
+      1,1,
+      switch(
+        isdbref(setr(0,pmatch(%0))),
+	1,1,
+	0)),
+    1,switch(
+      type(%q0),
+      PLAYER,1,
+      0),
+    0),{
+    @pemit %#=I can't find a player named '%0'. ;
+    @trigger me/TR_MAKE_GETPLAYER=%#},
+  {
+  &M.%#.PLAYERFOR %vd=%q0 ;
+  @trigger %!/TR_MAKE_GETNAME=%#}
+-
+
+# shorter-fix:
+
+&PR_MAKE_GETPLAYER %va=
+
+@break strmatch( %0, Q )=
+  @pemit %#=Program terminated;
+
+think setq( 0, pmatch( %0 ));
+
+@assert strmatch( type( %q0, PLAYER ))={
+  @pemit %#=I can't find a player named '%0'.; 
+  @trigger me/tr_make_getplayer=%#};
+
+&M.%#.PLAYERFOR %vd=%q0;
+@trigger %!/TR_MAKE_GETNAME=%#
+-
