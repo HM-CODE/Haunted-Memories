@@ -56,24 +56,6 @@ sub init_state {
     $state->{output} = '';
 }
 
-sub process_line {
-    local $_ = shift;
-    s/\s+/ /gsm;
-    s/^\s+//;
-    s/\s+$//;
-
-    if (/^[\@\&]|think\s*/) {
-	while (my ($macro, $expand) = each %{$state->{namacro}}) {
-	    while (s/\b\Q$macro\E\b/$expand/) {1}
-	}
-
-	$state->{output} .= "$_\n";
-    } else {
-	die "suspicious output: $_\n";
-    }
-
-}
-
 sub process {
     my ($data) = @_;
     $data =~ s/[^\t\r\n -~]//gsm;
@@ -85,7 +67,15 @@ sub process {
 	next if (/^\s*$/);
 	if (/^-\s*$/) {
 	    local $_ = $state->{line};
-	    process_line ($_);
+
+	    s/\s+/ /gsm;
+	    s/^\s+//;
+	    s/\s+$//;
+
+	    die "suspicious output: $_\n"
+	      unless (/^[\@\&]|think\s*/);
+
+	    $state->{output} .= "$_\n";
 	    $state->{line} = '';
 	    next;
 	}
