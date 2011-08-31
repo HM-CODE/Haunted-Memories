@@ -1,0 +1,1 @@
+&c.+bonds/who #21384=$+bonds/who *:setq(0,pmatch(%0));@pemit %#=header(People Who Are Bound to [name(%q0)]);@pemit %#=list(get(#1762/list-approved),[if(gte(match(get(pdb(##,gm)/d.bonds),%q0:*,|),1),name(##) <##>,)])[tail()]
