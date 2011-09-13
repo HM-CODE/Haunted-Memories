@@ -1,0 +1,65 @@
+##############################################################################
+##                             Resources Tracker                            ##
+##############################################################################
+## Author:       Loki                                                       ##
+## Created:      13th September 2011                                        ##
+## Last Updated: 13th September 2011                                        ##
+##############################################################################
+
+########################################
+## Object Preparation
+########################################
+@va                             me = #---
+-
+
+########################################
+## SQL Queries
+########################################
+
+##
+# Creates a resources log entry.
+# @input %0 Timestamp   created_at
+# @input %1 DBref       admin
+# @input %2 DBref       player
+# @input %3 Int         buying_power
+# @input %4 Boolean     is_gain
+# @input %5 Text        details
+# @return String        SQL Query
+##
+&Q.CREATE.LOG                   %vA = 
+INSERT INTO `hm_resources_log` 
+SET `created_at` = %0, 
+    `admin` = "%1", 
+    `player` = "%2", 
+    `buying_power` = %3, 
+    `is_gain` = [t(%4)], 
+    `details` = "[edit( %5, ", :QUOTE: )]"
+;
+-
+
+##
+# Fetches a log entry by id.
+# @input %0 Int         Log ID.
+# @return String        SQL Query
+##
+&Q.SELECT.LOG_BY_ID             %vA = 
+SELECT * 
+FROM `hm_resources_log` 
+WHERE `id` = %0
+;
+-
+
+##
+# Fetches all log IDs for a specific player, ordered by create date.
+# @input %0 DBref       player
+# @input %1 Int         limit (default: 100)
+# @return String        SQL Query
+##
+&Q.SELECT.LOGS_BY_PLAYER        %vA = 
+SELECT `id` 
+FROM `hm_resources_log` 
+WHERE `player` = "%0" 
+ORDER BY `created_at` DESC 
+LIMIT [ifelse( %1, %1, 100 )]
+;
+-
