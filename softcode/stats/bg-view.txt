@@ -1,0 +1,63 @@
+&C.+BG/VIEW #2740=$+bg/view *:
+
+think 
+  setq( Z, mid( ucstr( after( %0, = )), 0, 3 ))
+  [setq( p, pmatch( first( %0, = )))]
+  [setq( a, pdb( %qp, bg ))];
+ 
+@assert isstaff( %# )=
+  @pemit %#=msg( r, BG-SYS, Error. Please use +bg/read. ); 
+
+@assert isdbref( %qp )=
+  @pemit %#=msg( c, BG-SYS, '%0' is not a player! ); 
+
+@break 
+  cand( 
+    match( %0, */* ), 
+    not( hasattr( %qa/D.BG.QZ.[setr( 1, after( %0, / ))] )))={
+  @pemit %#=
+    msg( c, BG-SYS, 
+      '[get( %vz/D.SEC.%qZ )] #[after( %0, / )]' not found. 
+      Please verify slot exists. )}; 
+
+@break 
+  cand( 
+    match( %0, *=* ), 
+    not( match( get( %vz/d.sections ), %qz )))={
+  @pemit %#=[msg( c, BG-SYS, u( %vz/F.SECERRMSG ))]}; 
+
+@break 
+  cand( 
+    match( %0, *=* ), 
+    not( match( %0, */* )))={
+  @@[pemit( %#, [header( Background for '[name(%qP)]' )]%r
+      [separator( get( %vz/D.SEC.%qZ ), c )] )]
+    [iter( sortby( sort.slot, lattr ( %qA/D.BG.%qZ.* )), 
+      %r[pemit( %#, 
+        [wrap( u( %qA/[itext(0)] ), 78 )]%r
+        [rjust( %cc. . . . . slot [inum(0)]%cn, 78 )] )] )]
+  [pemit( %#, [tail()] )]}; 
+
+@break 
+  cand( 
+    match( %0, */* ), 
+    match( %0, *=* ))={
+  @@[pemit( %#, [header( Background for '[name(%qP)]' )]%r
+      [separator( get( %vz/D.SEC.%qZ ), c )]%r )]
+    [pemit( %#, [wrap( u( %qA/D.BG.%qZ.%q1 ), 78 )] )]
+    [pemit( %#, [rjust( %cc. . . . . slot %q1%cn, 78 )]%r
+    [tail()] )]}; 
+
+@break 
+  not( match( %0, *=* ))={
+  @@[pemit( %#, [header( Background for '[name(%qP)]' )] )]
+      [iter( get( %vz/D.SECTIONS ), 
+        [ifelse( hasattr( %qa, D.BG.##.1 ), 
+          [pemit( %#, [separator( get( %vz/D.SEC.[itext(0)] ), c )] )]
+          [iter( sortby( sort.slot, lattr( %qA/D.BG.[itext(0)].* )), 
+            [pemit( %#, [wrap( u( %qA/[itext(0)] ), 78 )]%r
+            [rjust( %cc. . . . . slot [inum(0)]%cn, 78 )] )] )], )] )]%r
+  [pemit( %#, tail() )]}
+-
+
+&c.bg/view #2740=

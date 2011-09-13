@@ -4,6 +4,7 @@ Internal @function dependencies:
 
 * header()
 * tail() - like footer() in some places
+* msg()
 
 Compatibilities issues:
 
