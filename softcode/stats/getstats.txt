@@ -1,0 +1,10 @@
+&GETATTRIBUTES #1687=[setq(a,u(%q0/_stats-attributes))][setq(b,switch([isnum(%q2)]:[lcstr(%q2)],1:?,%q2,0:p,3,2))][setq(c,match(u(%q0/_stats-attributes),*%q1*,|))][setq(d,elementsmux(%qa,%qc,|))][elementsmux(%qd,%qb,:)]
+&GETADVANTAGES #1687=[setq(a,u(*%q0/_stats-advantages))][setq(b,switch([isnum(%q2)]:[lcstr(%q2)],1:?,%q2,0:p,3,2))][setq(c,match(u(*%q0/_stats-advantages),*%q1*,|))][setq(d,elementsmux(%qa,%qc,|))][elementsmux(%qd,%qb,:)]
+&GETHEALTH #1687=[setq(a,u(%q0/_stats-health))][setq(c,match(u(%q0/_stats-health),*%q1*,|))][setq(d,elementsmux(%qa,%qc,|))][elementsmux(%qd,2,:)]
+&GETHEADER #1687=[setq(a,u(%q0/_stats-header))][setq(c,match(u(%q0/_stats-header),*%q1*,|))][setq(d,elementsmux(%qa,%qc,|))][elementsmux(%qd,2,:)]
+&GETSKILLS #1687=[null( ifelse( !strlen( trim( setr( S, grab( xget( %q0, _STATS-SKILLS ), %q1*:?:*, | ) ) ) ), setq( S, grab( xget( %q0, _STATS-SKILLS ), *%q1*, | ) ), ) )][elementsmux( %qS, switch(%q2,s*,3,3,3,2),:)]
+&GETMERITS #1687=[setq(a,u(%q0/_stats-merits))][setq(b,switch(gt(words(%q2),0),1,%q2,%q1))][setq(c,match(u(%q0/_stats-merits),*%QB*,|))][setq(d,elementsmux(%qa,%qc,|))][elementsmux(%qd,2,:)]
+&GETDISCIPLINE #1687=[setq(a,u(%q0/_stats-discipline))][setq(b,switch([isnum(%q2)]:[lcstr(%q2)],1:?,%q2,0:p,3,2))][setq(c,match(u(%q0/_stats-discipline),*%q1*,|))][setq(d,elementsmux(%qa,%qc,|))][elementsmux(%qd,%qb,:)]
+&GETRENOWN #1687=elementsmux(grab(get(%q0/_stats-renown),*%q1*,|),switch(isnum(%q2):%q2,1:?,%q2,0:p,3,2),:)
+&GETARCANA #1687=[setq(a,u(%q0/_stats-arcana))][setq(b,switch([isnum(%q2)]:[lcstr(%q2)],1:?,%q2,0:p,3,2))][setq(c,match(u(%q0/_stats-arcana),*%q1*,|))][setq(d,elementsmux(%qa,%qc,|))][elementsmux(%qd,%qb,:)]
+&GETCONTRACTS #1687=[setq(a,u(%q0/_stats-contracts))][setq(b,switch([isnum(%q2)]:[lcstr(%q2)],1:?,%q2,0:p,3,2))][setq(c,match(u(%q0/_stats-contracts),*%q1*,|))][setq(d,elementsmux(%qa,%qc,|))][elementsmux(%qd,%qb,:)]
