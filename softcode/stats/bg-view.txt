@@ -1,3 +1,54 @@
-&C.+BG/VIEW #2740=$+bg/view *:think setq(Z,mid(ucstr(after(%0,=)),0,3))[setq(p,pmatch(first(%0,=)))][setq(a,pdb(%qp,bg))];@assert isstaff(%#)={@pemit %#=msg(c,BG-SYS,Error. Please use +bg/read.)};@assert vattrcnt([pdb(%q0,bg)])={@pemit %#=msg(c,BG-SYS,[name(%q0)] hasn't set a background yet.)};@assert cor(match(get(%vz/d.sections),%q2),not(match(%0,*=*)))={@pemit %#=msg(c,BG-SYS,No such BG section '[first(rest(%0,=),/)]'.)};@assert cor(hasattr(%q1/d.bg.%q2.%q3),not(match(%0,*=*)))={@pemit %#=msg(c,BY-SYS,No such [get(%vz/d.sec.%q2)] entry: %q3.)};@break cand(match(%0,*=*),match(%0,*/*))={@trig %vz/trig.bgdisplay=%q0,%q1,%q2.%q3,%#};@break cand(match(%0,*=*),not(match(%0,*/*)))={@trig %vz/trig.bgdisplay=%q0,%q1,%q2.*,%#};@assert match(%0,*=*)={@trig %vz/trig.bgdisplay=%q0,%q1,*,%#}
-&trig.bgdisplay #2748=@@[list(sort(lattr(%1/d.BG.%2),n),[if(eq(1,last(##,.)),separator(get(%vz/d.sec.[extract(##,3,1,.)]),c))]%r[get(%1/##)]%r[rjust(%cc. . . . . slot [last(##,.)]%cn,78)],,header(name(%0)'s Background),%3)]@@[pemit(%3,tail())]
+&C.+BG/VIEW #2740=$+bg/view *:
+
+think setq(Z,mid(ucstr(after(%0,=)),0,3))
+      [setq(p,pmatch(first(%0,=)))]
+      [setq(a,pdb(%qp,bg))]
+
+;
+
+@assert isstaff(%#)={
+  @pemit %#=msg(c,BG-SYS,Error. Please use +bg/read.)
+}
+;
+
+@assert vattrcnt([pdb(%q0,bg)])={
+  @pemit %#=msg(c,BG-SYS,[name(%q0)] hasn't set a background yet.)
+}
+;
+
+@assert cor(match(get(%vz/d.sections),%q2),not(match(%0,*=*)))={
+  @pemit %#=msg(c,BG-SYS,No such BG section '[first(rest(%0,=),/)]'.)
+}
+;
+
+@assert cor(hasattr(%q1/d.bg.%q2.%q3),not(match(%0,*=*)))={
+  @pemit %#=msg(c,BY-SYS,No such [get(%vz/d.sec.%q2)] entry: %q3.)
+}
+;
+
+@break cand(match(%0,*=*),match(%0,*/*))={
+  @trig %vz/trig.bgdisplay=%q0,%q1,%q2.%q3,%#
+}
+;
+
+@break cand(match(%0,*=*),not(match(%0,*/*)))={
+  @trig %vz/trig.bgdisplay=%q0,%q1,%q2.*,%#
+}
+;
+
+@assert match(%0,*=*)={
+@trig %vz/trig.bgdisplay=%q0,%q1,*,%#
+}
+
+-
+
+&trig.bgdisplay #2748=
+  @@[list(sort(lattr(%1/d.BG.%2),n),
+      [if(eq(1,last(##,.)),separator(get(%vz/d.sec.[extract(##,3,1,.)]),c))]%r
+      [get(%1/##)]%r
+      [rjust(%cc. . . . . slot [last(##,.)]%cn,78)],,
+    header(name(%0)'s Background),%3)]
+  @@[pemit(%3,tail())]
+-
 &c.bg/view #2740=
+-
