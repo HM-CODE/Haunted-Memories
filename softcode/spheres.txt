@@ -1,3 +1,24 @@
-&C.SPHERES #19886=$+spheres:@pemit %#=header(Spheres Status);@pemit %#=list(u(#1687/valid-faction),if(match(changeling mortal mage vampire werewolf,##),%r)[ljust(u(#4651/f.spheres-colors,##)%b,50,.)][ljust(%b[u(#4651/f.spheres-status,##)],14)][rjust(words(get(#1762/list-##)),3)]%bcharacters,|)%r* %ch%cgOpen%cn: Sphere is open, you can proceed to character generation.%r* %ch%cyLimited%cn: Sphere is near capacity, submit concept +job.%r* %ch%crClosed%cn: Sphere is presently closed to new applications.%r* %ch%crN/A%cn: Not Available. Sphere is closed and not accepting waitlisting.%r[tail()]
-&F.SPHERE-STATUS #4651=[switch(get(%vx/d.status.%0),Open,%ch%cgOpen%cn,Limited,%ch%cyLimited%cn,Closed,%ch%crClosed%cn,%ch%crN/A%cn)]
-&F.SPHERE-COLORS #4651=[switch(%0,changeling,%cgChangeling%cn,mortal,%ch%cbMortal%cn,mage,%ccMage%cn,vampire,%crVampire%cn,werewolf,%cyWerewolf%cn,-[caplist(%0)])]
+&C.SPHERES #19886=$+spheres:
+
+@pemit %#=header(Spheres Status)
+;
+
+@pemit %#=list(
+                u(#1687/valid-faction),
+                if(match(changeling mortal mage vampire werewolf,##),%r)
+                [ljust(u(#4651/f.spheres-colors,##)%b,50,.)]
+                [ljust(%b[u(#4651/f.spheres-status,##)],14)]
+                [rjust(words(get(#1762/list-##)),3)]%bcharacters,|
+              )%r* %ch%cgOpen%cn: Sphere is open, you can proceed to character generation.%r* %ch%cyLimited%cn: Sphere is near capacity, submit concept +job.%r* %ch%crClosed%cn: Sphere is presently closed to new applications.%r* %ch%crN/A%cn: Not Available. Sphere is closed and not accepting waitlisting.%r[tail()]
+-
+&F.SPHERE-STATUS #4651=
+
+  [switch(
+    get(%vx/d.status.%0),
+    Open,%ch%cgOpen%cn,Limited,%ch%cyLimited%cn,Closed,%ch%crClosed%cn,%ch%crN/A%cn
+  )]
+-
+&F.SPHERE-COLORS #4651=
+
+  [switch(%0,changeling,%cgChangeling%cn,mortal,%ch%cbMortal%cn,mage,%ccMage%cn,vampire,%crVampire%cn,werewolf,%cyWerewolf%cn,-[caplist(%0)])]
+-
