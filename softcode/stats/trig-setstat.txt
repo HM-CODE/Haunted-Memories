@@ -1,1 +1,7 @@
-&TRIG_SETSTAT [System] +Sheet=[setstat(%0,%1,%2,%3)];@pemit %4=msg(cc,+setstat,{You set [name(%0)]'s [caplist(caplist(%1),-)] to [if(or(gt(setr(f,getstat(%0,%1,%3)),0),gte(words(%qf),1)),if(gte(match(get(valid-advantages),%1,|),1),{u(fn-%1,0,if(strmatch(%3,T,T,P))},%qf),0)][if(cand(words(%4),match(Skills,%5)),%bwith specialties [elist(trim(getstat(%0,%1,specialties)),,|)])].})
+&TRIG_SETSTAT #1687=
+
+[setstat(%0,%1,%2,%3)]
+;
+
+@pemit %4=msg(cc,+setstat,{You set [name(%0)]'s [caplist(caplist(%1),-)] to [if(or(gt(setr(f,getstat(%0,%1,%3)),0),gte(words(%qf),1)),if(gte(match(get(valid-advantages),%1,|),1),{u(fn-%1,0,if(strmatch(%3,T,T,P))},%qf),0)][if(cand(words(%4),match(Skills,%5)),%bwith specialties [elist(trim(getstat(%0,%1,specialties)),,|)])].})
+-
