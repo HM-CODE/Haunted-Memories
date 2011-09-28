@@ -1,5 +1,18 @@
 &dat_conrosters #5= 
+-
 &cmd_concepts #6=$+concepts:@pemit %#=msg(c,Globals,Please use +census.)
+-
 &cmd_census #6=
+-
 &d.census-lists #4651=business civil crime education fame gangs hospital law mafia media musicians PI police political psychic rich rotary street strikinglooks thaumaturge UN unseen-senses
-&c.+census #6= $+census:@pemit %#=header(Census Statistics,[ljc(ansi(hc,Type),21)][center(ansi(hc,Number of players), 20)])[iter(u(#4651/d.census-lists),%r%b[ljc(switch(##,PI,Private Investigators,UN,United Nations,Strikinglooks,Striking Looks,caplist(caplist(##),-)),30)][rjust(words(filter(%!/FIL.NOT_NPC,u(#1762/list-##))), 5)][space(5)][left(u(#1762/title-##), 37)])]%r[tail(Total number of approved players: [words(u(#1762/list-approved))])]
+-
+&c.+census #6=$+census:
+@pemit %#=
+          header(Census Statistics,[ljc(ansi(hc,Type),21)][center(ansi(hc,Number of players), 20)])
+          [iter(u(#4651/d.census-lists),%r%b
+            [ljc(switch(##,PI,Private Investigators,UN,United Nations,Strikinglooks,Striking Looks,caplist(caplist(##),-)),30)]
+            [rjust(words(filter(%!/FIL.NOT_NPC,u(#1762/list-##))), 5)]
+            [space(5)]
+            [left(u(#1762/title-##), 37)])]%r
+          [tail(Total number of approved players: [words(u(#1762/list-approved))])]
+-
