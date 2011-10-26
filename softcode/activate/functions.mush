@@ -1,0 +1,15 @@
+&t.obfuscate.3 #11983=
+
+@break hastxlevel( %0, INVIS ) = {
+	@pemit %0 = msg( h, +activate, You are already obfuscated. );
+};
+
+@trigger #4483/T.HIDE = OBFUSCATE, 3, %0, %0 
+; 
+
+@cemit bigbrother = [name( %0 )] activates Obfuscate 3 \(Cloak of Night\), concealing [obj( %0 )]self. 
+; 
+
+@pemit %0 = msg( h, +activate, You activate Cloak of Night\, concealing yourself. )
+;
+-
