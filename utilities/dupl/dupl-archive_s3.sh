@@ -3,7 +3,7 @@
 ## Sends the Archives to a S3 using Duplicity.
 ## Dependencies:
 ##   * duplicity
-##   * python-bo
+##   * python-boto
 ## Usage: archive_s3 <bucket>
 ##
 ## Required Variables:
